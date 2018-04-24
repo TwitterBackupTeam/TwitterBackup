@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TwitterBackup.Data.Models;
 using TwitterBackup.Web.Data;
 using TwitterBackup.Web.Models;
 using TwitterBackup.Web.Services;
@@ -39,7 +40,7 @@ namespace TwitterBackup.Web
                 options.Password.RequireUppercase = false;
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

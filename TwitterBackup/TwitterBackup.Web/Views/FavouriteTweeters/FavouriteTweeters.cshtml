@@ -1,0 +1,23 @@
+﻿@model IEnumerable<TwitterBackup.Web.Models.FavouriteTweetersViewModels.FavouriteTweeterViewModel>
+
+@{
+    ViewData["Title"] = "FavouriteTweeters";
+}
+
+<h2>FavouriteTweeters</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <ul>
+            @foreach (var item in Model)
+            {
+                <li>@item.Name</li>
+            }
+        </ul>
+    </tbody>
+</table>
