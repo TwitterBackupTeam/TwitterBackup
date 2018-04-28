@@ -5,6 +5,11 @@ namespace TwitterBackup.Data.Models
 {
     public class User : IdentityUser
     {
-        public ICollection<Tweet> FavouriteTweets { get; set; }
+        public User()
+        {
+            this.UserTweets = new HashSet<UserTweet>();
+        }
+
+        public ICollection<UserTweet> UserTweets { get; set; }
     }
 }

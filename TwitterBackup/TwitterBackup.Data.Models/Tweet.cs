@@ -6,8 +6,13 @@ namespace TwitterBackup.Data.Models
 {
     public class Tweet
     {
+        public Tweet()
+        {
+            this.UserTweets = new HashSet<UserTweet>();
+        }
+
         [Key]
-        public long Id;
+        public long Id { get; set; }
 
         public string Text { get; set; }
 
@@ -19,9 +24,11 @@ namespace TwitterBackup.Data.Models
 
         public Tweeter Author { get; set; }
 
+        public string HashTags { get; set; }
+
         /// <summary>
-        /// Users who contain this tweet in their favourite collection.
+        /// Users who happen to have this tweet in their favourite collection.
         /// </summary>
-        public ICollection<User> UsersFavouriteTweet { get; set; }
+        public ICollection<UserTweet> UserTweets { get; set; }
     }
 }
