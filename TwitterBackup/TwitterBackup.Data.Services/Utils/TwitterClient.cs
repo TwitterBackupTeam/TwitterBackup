@@ -30,7 +30,7 @@ namespace TwitterAPI
 
         public string GetTweets(string screenName)
         {
-            string resourceUrl ="https://api.twitter.com/1.1/statuses/user_timeline.json";
+            string resourceUrl = "https://api.twitter.com/1.1/statuses/user_timeline.json";
 
             var requestParameters = new SortedDictionary<string, string>();
             requestParameters.Add("screen_name", screenName);
