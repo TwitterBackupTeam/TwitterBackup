@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterBackup.Data.Reposito
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterBackup.Data.Context", "TwitterBackup.Data.Context\TwitterBackup.Data.Context.csproj", "{48E98D3C-E700-43F9-8DB9-0FA55C9D6CDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterBackup.Data.Services", "TwitterBackup.Data.Services\TwitterBackup.Data.Services.csproj", "{786B7E44-2AF4-49AC-9124-AC156DCBDE2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterBackup.Data.Services", "TwitterBackup.Data.Services\TwitterBackup.Data.Services.csproj", "{786B7E44-2AF4-49AC-9124-AC156DCBDE2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwitterBackup.Data.DTO", "TwitterBackup.Data.DTO\TwitterBackup.Data.DTO.csproj", "{98EA0C26-A750-44B8-8A08-E39E00DE69C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{786B7E44-2AF4-49AC-9124-AC156DCBDE2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{786B7E44-2AF4-49AC-9124-AC156DCBDE2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{786B7E44-2AF4-49AC-9124-AC156DCBDE2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98EA0C26-A750-44B8-8A08-E39E00DE69C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98EA0C26-A750-44B8-8A08-E39E00DE69C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98EA0C26-A750-44B8-8A08-E39E00DE69C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98EA0C26-A750-44B8-8A08-E39E00DE69C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{C9401D13-92E1-48FA-BCEA-6426DF2DFF80} = {F3659037-DA11-4814-B97C-7554BD258CB2}
 		{48E98D3C-E700-43F9-8DB9-0FA55C9D6CDB} = {F3659037-DA11-4814-B97C-7554BD258CB2}
 		{786B7E44-2AF4-49AC-9124-AC156DCBDE2A} = {F3659037-DA11-4814-B97C-7554BD258CB2}
+		{98EA0C26-A750-44B8-8A08-E39E00DE69C1} = {F3659037-DA11-4814-B97C-7554BD258CB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A1249402-B3E6-42B4-BF47-18C234DC3A52}
