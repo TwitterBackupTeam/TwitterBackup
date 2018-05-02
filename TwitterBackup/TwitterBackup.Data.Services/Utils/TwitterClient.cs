@@ -4,9 +4,8 @@ using System.Net;
 using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using TwitterBackup.Data.Services.Utils;
 
-namespace TwitterAPI
+namespace TwitterBackup.Data.Services.Utils
 {
     public class TwitterClient : ITwitterClient
     {

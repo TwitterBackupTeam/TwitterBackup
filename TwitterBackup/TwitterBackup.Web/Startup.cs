@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TwitterBackup.Data.Context;
 using TwitterBackup.Data.Models;
+using TwitterBackup.Data.Services;
+using TwitterBackup.Data.Services.ServiceInterfaces;
+using TwitterBackup.Data.Services.Utils;
 using TwitterBackup.Web.Services;
 
 namespace TwitterBackup.Web
@@ -41,6 +45,16 @@ namespace TwitterBackup.Web
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddTransient<IJsonDeserializer, JsonDeserializer>();
+            services.AddTransient<ITwitterClient, TwitterClient>(serviceProvider =>
+            {
+                return new TwitterClient(Environment.GetEnvironmentVariable("TwitterConsumerKey"),
+                    Environment.GetEnvironmentVariable("TwitterConsumerKeySecret"),
+                    Environment.GetEnvironmentVariable("TwitterAccessToken"),
+                    Environment.GetEnvironmentVariable("TwitterAccessTokenSecret"));
+            });
+            services.AddTransient<ITwitterService, TwitterService>();
 
             services.AddMvc();
         }
