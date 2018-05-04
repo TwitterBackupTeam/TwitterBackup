@@ -1,6 +1,6 @@
 ﻿namespace TwitterBackup.Data.Services.Utils
 {
-    public interface ITwitterClient
+    public interface ITwitterAPIClient
     {
         string GetTweets(string screenName);
     }

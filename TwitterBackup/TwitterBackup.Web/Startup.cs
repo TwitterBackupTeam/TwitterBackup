@@ -47,9 +47,9 @@ namespace TwitterBackup.Web
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddTransient<IJsonDeserializer, JsonDeserializer>();
-            services.AddTransient<ITwitterClient, TwitterClient>(serviceProvider =>
+            services.AddTransient<ITwitterAPIClient, TwitterApiClient>(serviceProvider =>
             {
-                return new TwitterClient(Environment.GetEnvironmentVariable("TwitterConsumerKey"),
+                return new TwitterApiClient(Environment.GetEnvironmentVariable("TwitterConsumerKey"),
                     Environment.GetEnvironmentVariable("TwitterConsumerKeySecret"),
                     Environment.GetEnvironmentVariable("TwitterAccessToken"),
                     Environment.GetEnvironmentVariable("TwitterAccessTokenSecret"));

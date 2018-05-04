@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace TwitterBackup.Data.Services.Utils
 {
-    public class TwitterClient : ITwitterClient
+    public class TwitterApiClient : ITwitterAPIClient
     {
         public const string OauthVersion = "1.0";
         public const string OauthSignatureMethod = "HMAC-SHA1";
@@ -17,7 +17,7 @@ namespace TwitterBackup.Data.Services.Utils
         private readonly string accessTokenSecret;
         private readonly Random rnd;
 
-        public TwitterClient
+        public TwitterApiClient
           (string consumerKey, string consumerKeySecret, string accessToken, string accessTokenSecret)
         {
             this.consumerKey = consumerKey;
