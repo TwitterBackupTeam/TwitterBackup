@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TwitterBackup.Data.DTO
 {
@@ -10,11 +7,11 @@ namespace TwitterBackup.Data.DTO
 		[JsonProperty("id")]
 		public string Id { get; set; }
 
+		[JsonProperty("followers_count")]
+		public int FollowersCount { get; set; }
 
-		public string Email { get; set; }
-
-
-		public string UserName { get; set; }
+		[JsonProperty("screen_name")]
+		public string ScreenName { get; set; }
 	}
 
 }

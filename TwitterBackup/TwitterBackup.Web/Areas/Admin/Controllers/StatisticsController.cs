@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TwitterBackup.Web.Areas.Admin.Controllers
 {
+	[Area("Admin")]
+	[Authorize(Roles = "Administrators")]
 	public class StatisticsController : Controller
     {
-		[Area("Admin")]
-		[Authorize(Roles = "Administrators")]
 		public IActionResult Index()
         {
             return View();
