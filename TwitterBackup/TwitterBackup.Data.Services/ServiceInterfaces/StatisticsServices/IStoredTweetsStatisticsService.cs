@@ -1,6 +1,7 @@
 ﻿namespace TwitterBackup.Data.Services.ServiceInterfaces.StatisticsServices
 {
-	interface IStoredTweetsStatisticsService
+	public interface IStoredTweetsStatisticsService
     {
+
     }
 }
