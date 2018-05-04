@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TwitterBackup.Data.Models.Abstract;
 
 namespace TwitterBackup.Data.Models
 {
-    public class Tweet
+    public class Tweet : IDeletable
     {
         public Tweet()
         {
@@ -26,9 +27,14 @@ namespace TwitterBackup.Data.Models
 
         public string HashTags { get; set; }
 
-        /// <summary>
-        /// Users who happen to have this tweet in their favourite collection.
-        /// </summary>
-        public ICollection<UserTweet> UserTweets { get; set; }
+		public bool IsDeleted { get; set; }
+
+		[DataType(DataType.DateTime)]
+		public DateTime? DeletedOn { get; set; }
+
+		/// <summary>
+		/// Users who happen to have this tweet in their favourite collection.
+		/// </summary>
+		public ICollection<UserTweet> UserTweets { get; set; }
     }
 }

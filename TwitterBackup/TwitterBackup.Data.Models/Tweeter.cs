@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using TwitterBackup.Data.Models.Abstract;
 
 namespace TwitterBackup.Data.Models
 {
-    public class Tweeter
+    public class Tweeter : IDeletable
     {
         [Key]
         public long Id { get; set; }
@@ -18,5 +20,10 @@ namespace TwitterBackup.Data.Models
         public int FollowersCount { get; set; }
 
         public int StatusesCount { get; set; }
-    }
+
+		public bool IsDeleted { get; set; }
+
+		[DataType(DataType.DateTime)]
+		public DateTime? DeletedOn { get; set; }
+	}
 }

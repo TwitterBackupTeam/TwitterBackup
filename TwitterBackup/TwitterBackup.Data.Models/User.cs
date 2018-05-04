@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using TwitterBackup.Data.Models.Abstract;
 
 namespace TwitterBackup.Data.Models
 {
-    public class User : IdentityUser
+	public class User : IdentityUser, IDeletable
     {
         public User()
         {
@@ -17,5 +20,10 @@ namespace TwitterBackup.Data.Models
 		public string FirstName { get; set; }
 
 		public string LastName { get; set; }
+
+		public bool IsDeleted { get; set; }
+
+		[DataType(DataType.DateTime)]
+		public DateTime? DeletedOn { get; set; }
 	}
 }
