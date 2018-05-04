@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TwitterBackup.Data.DTO\TwitterBackup.Data.DTO.csproj" />
+    <ProjectReference Include="..\TwitterBackup.Data.Models\TwitterBackup.Data.Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

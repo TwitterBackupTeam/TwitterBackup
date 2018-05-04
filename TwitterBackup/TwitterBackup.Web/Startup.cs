@@ -55,6 +55,7 @@ namespace TwitterBackup.Web
 					Environment.GetEnvironmentVariable("TwitterAccessTokenSecret"));
 			});
 			services.AddTransient<ITwitterService, TwitterService>();
+			services.AddTransient<IAdminUserService, AdminUserService>();
 
 			services.AddMvc();
 		}

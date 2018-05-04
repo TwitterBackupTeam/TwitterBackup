@@ -11,5 +11,11 @@ namespace TwitterBackup.Data.Models
         }
 
         public ICollection<UserTweet> UserTweets { get; set; }
-    }
+
+		public string TwitterName { get; set; }
+
+		public string FirstName { get; set; }
+
+		public string LastName { get; set; }
+	}
 }
