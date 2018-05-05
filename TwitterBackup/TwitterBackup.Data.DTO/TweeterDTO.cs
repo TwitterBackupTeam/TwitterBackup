@@ -7,6 +7,9 @@ namespace TwitterBackup.Data.DTO
         [JsonProperty("id")]
         public long Id { get; set; }
 
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
         [JsonProperty("screen_name")]
         public string ScreenName { get; set; }
 
@@ -16,7 +19,7 @@ namespace TwitterBackup.Data.DTO
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("profile_background_image_url")]
+        [JsonProperty("profile_image_url")]
         public string ProfileImageUrl { get; set; }
 
         [JsonProperty("followers_count")]

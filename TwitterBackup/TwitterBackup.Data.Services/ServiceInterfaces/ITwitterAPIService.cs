@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TwitterBackup.Data.DTO;
 
 namespace TwitterBackup.Data.Services.ServiceInterfaces
 {
-    public interface ITwitterService
+    public interface ITwitterAPIService
     {
-        ICollection<TweetDTO> GetTweets(string screenName);
+        Task<ICollection<TweetDTO>> GetTweets(string screenName);
     }
 }

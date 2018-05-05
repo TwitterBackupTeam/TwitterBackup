@@ -1,12 +1,14 @@
-﻿using System;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using TwitterBackup.Data.Context;
 using TwitterBackup.Data.Models;
+using TwitterBackup.Data.Repository;
 using TwitterBackup.Data.Services;
 using TwitterBackup.Data.Services.ServiceInterfaces;
 using TwitterBackup.Data.Services.Utils;
@@ -43,20 +45,24 @@ namespace TwitterBackup.Web
 				.AddEntityFrameworkStores<TwitterBackupDbContext>()
 				.AddDefaultTokenProviders();
 
-			// Add application services.
-			services.AddTransient<IEmailSender, EmailSender>();
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddAutoMapper(cfg => cfg.ValidateInlineMaps = false);
 
-			services.AddTransient<IJsonDeserializer, JsonDeserializer>();
-			services.AddTransient<ITwitterAPIClient, TwitterApiClient>(serviceProvider =>
-			{
-				return new TwitterApiClient(Environment.GetEnvironmentVariable("TwitterConsumerKey"),
-					Environment.GetEnvironmentVariable("TwitterConsumerKeySecret"),
-					Environment.GetEnvironmentVariable("TwitterAccessToken"),
-					Environment.GetEnvironmentVariable("TwitterAccessTokenSecret"));
-			});
-			services.AddTransient<ITwitterService, TwitterService>();
+            services.AddTransient<IJsonDeserializer, JsonDeserializer>();
+            services.AddTransient<ITwitterAPIClient, TwitterApiClient>(serviceProvider =>
+            {
+                return new TwitterApiClient(Environment.GetEnvironmentVariable("TwitterConsumerKey"),
+                    Environment.GetEnvironmentVariable("TwitterConsumerKeySecret"),
+                    Environment.GetEnvironmentVariable("TwitterAccessToken"),
+                    Environment.GetEnvironmentVariable("TwitterAccessTokenSecret"));
+            });
+            services.AddTransient<ITwitterAPIService, TwitterApiService>();
+            services.AddTransient<ITweetService, TweetService>();
+            services.AddTransient<IAutoMapper, AutoMapperWrapper>();
+            services.AddTransient<IWorkSaver, WorkSaver>();
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 			services.AddTransient<IAdminUserService, AdminUserService>();
-
 			services.AddMvc();
 		}
 

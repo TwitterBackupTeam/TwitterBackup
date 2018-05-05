@@ -1,14 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using TwitterBackup.Data.Context;
 
 namespace TwitterBackup.Data.Repository
 {
     public class EfRepository<T> : IRepository<T> where T : class
     {
-        private DbContext dbContext;
+        private TwitterBackupDbContext dbContext;
         private DbSet<T> dbSet;
 
-        public EfRepository(DbContext dbContext)
+        public EfRepository(TwitterBackupDbContext dbContext)
         {
             this.dbContext = dbContext;
             this.dbSet = this.dbContext.Set<T>();

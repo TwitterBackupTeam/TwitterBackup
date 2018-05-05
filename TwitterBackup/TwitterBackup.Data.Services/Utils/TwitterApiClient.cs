@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace TwitterBackup.Data.Services.Utils
 {
@@ -27,19 +28,19 @@ namespace TwitterBackup.Data.Services.Utils
             this.rnd = new Random();
         }
 
-        public string GetTweets(string screenName)
+        public async Task<string> GetTweets(string screenName)
         {
             string resourceUrl = "https://api.twitter.com/1.1/statuses/user_timeline.json";
 
             var requestParameters = new SortedDictionary<string, string>();
             requestParameters.Add("screen_name", screenName);
 
-            var response = GetResponse(resourceUrl, Method.GET, requestParameters);
+            var response = await GetResponse(resourceUrl, Method.GET, requestParameters);
 
             return response;
         }
 
-        private string GetResponse
+        private async Task<string> GetResponse
         (string resourceUrl, Method method, SortedDictionary<string, string> requestParameters)
         {
             WebRequest request = null;
@@ -70,7 +71,7 @@ namespace TwitterBackup.Data.Services.Utils
             {
                 var authHeader = CreateHeader(resourceUrl, method, requestParameters);
                 request.Headers.Add("Authorization", authHeader);
-                var response = request.GetResponse();
+                var response = await request.GetResponseAsync();
 
                 using (var sd = new StreamReader(response.GetResponseStream()))
                 {

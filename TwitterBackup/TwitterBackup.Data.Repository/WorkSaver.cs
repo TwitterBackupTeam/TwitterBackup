@@ -3,15 +3,16 @@ using System;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
 using TwitterBackup.Data.Models;
+using TwitterBackup.Data.Context;
 
 namespace TwitterBackup.Data.Repository
 {
-	public class WorkSaver : IWorkSaver
-	{
-		private readonly DbContext dbContext;
+    public class WorkSaver : IWorkSaver
+    {
+        private readonly TwitterBackupDbContext dbContext;
 		private IRepository<User> userRepository;
 
-		public WorkSaver(DbContext dbContext)
+		public WorkSaver(TwitterBackupDbContext dbContext)
 		{
 			this.dbContext = dbContext ?? throw new ArgumentNullException("DbContext should not be null");
 		}
@@ -61,21 +62,45 @@ namespace TwitterBackup.Data.Repository
 		{
 			int result = 0;
 
-			using (var dbContextTransaction = this.dbContext.Database.BeginTransaction())
-			{
-				try
-				{
-					result = await this.dbContext.SaveChangesAsync();
-					dbContextTransaction.Commit();
-				}
-				catch (Exception ex)
-				{
-					dbContextTransaction.Rollback();
+            using (var dbContextTransaction = this.dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    //await this.dbContext.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT Tweeters ON;");
 
-					// proper stack trace
-					ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
-				}
-			}
+                    //// Detach all tweets
+                    //var tweetsThatNeedToBeUpdated = this.dbContext.ChangeTracker.Entries<Tweet>().Where(x =>
+                    //    x.State != EntityState.Detached
+                    //    && x.State != EntityState.Unchanged);
+
+                    //this.dbContext.ChangeTracker.Entries<Tweet>().Select(e => e.State = EntityState.Detached);
+                    //result = await this.dbContext.SaveChangesAsync(false);
+                    //dbContextTransaction.Commit();
+
+                    //await this.dbContext.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT Tweeters OFF; SET IDENTITY_INSERT Tweets ON;");
+                    //this.dbContext.ChangeTracker.Entries<Tweet>().
+                    //    Where(e => tweetsThatNeedToBeUpdated.Contains(e)).
+                    //    Select(e => e.State = tweetsThatNeedToBeUpdated.First(en => en == e).State);
+                    //result = await this.dbContext.SaveChangesAsync(false);
+                    //dbContextTransaction.Commit();
+                    //await this.dbContext.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT Tweets OFF;");
+
+                    result = await this.dbContext.SaveChangesAsync();
+                    dbContextTransaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    dbContextTransaction.Rollback();
+
+                    if (ex is AggregateException)
+                    {
+                        // proper stack trace
+                        ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
+                    }
+
+                    throw;
+                }
+            }
 
 			return result > 0;
 		}

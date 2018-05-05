@@ -1,7 +1,9 @@
-﻿namespace TwitterBackup.Data.Services.Utils
+﻿using System.Threading.Tasks;
+
+namespace TwitterBackup.Data.Services.Utils
 {
     public interface ITwitterAPIClient
     {
-        string GetTweets(string screenName);
+        Task<string> GetTweets(string screenName);
     }
 }

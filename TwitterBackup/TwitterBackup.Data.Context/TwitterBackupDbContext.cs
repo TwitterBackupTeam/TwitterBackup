@@ -16,7 +16,10 @@ namespace TwitterBackup.Data.Context
             base.OnModelCreating(builder);
 
             builder.Entity<UserTweet>()
-                .HasKey(t => new { t.UserId, t.TweetId});
+                .HasKey(t => new {t.UserId, t.TweetId});
+
+            builder.Entity<Tweet>().Property(t => t.Id).ValueGeneratedNever();
+            builder.Entity<Tweeter>().Property(t => t.Id).ValueGeneratedNever();
         }
 
         public DbSet<Tweet> Tweets { get; set; }

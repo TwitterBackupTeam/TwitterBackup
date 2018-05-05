@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TwitterBackup.Data.Context.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,8 +52,7 @@ namespace TwitterBackup.Data.Context.Migrations
                 name: "Tweeters",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<long>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     FollowersCount = table.Column<int>(nullable: false),
                     Location = table.Column<string>(nullable: true),
@@ -176,15 +175,12 @@ namespace TwitterBackup.Data.Context.Migrations
                 name: "Tweets",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<long>(nullable: false),
                     AuthorId = table.Column<long>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
                     FavouriteCount = table.Column<int>(nullable: false),
-                    HashTags = table.Column<string>(nullable: true),
                     RetweetCount = table.Column<int>(nullable: false),
-                    Text = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    Text = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -195,9 +191,29 @@ namespace TwitterBackup.Data.Context.Migrations
                         principalTable: "Tweeters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTweet",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(nullable: false),
+                    TweetId = table.Column<int>(nullable: false),
+                    TweetId1 = table.Column<long>(nullable: true),
+                    UserId1 = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTweet", x => new { x.UserId, x.TweetId });
                     table.ForeignKey(
-                        name: "FK_Tweets_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_UserTweet_Tweets_TweetId1",
+                        column: x => x.TweetId1,
+                        principalTable: "Tweets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserTweet_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -248,9 +264,14 @@ namespace TwitterBackup.Data.Context.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tweets_UserId",
-                table: "Tweets",
-                column: "UserId");
+                name: "IX_UserTweet_TweetId1",
+                table: "UserTweet",
+                column: "TweetId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTweet_UserId1",
+                table: "UserTweet",
+                column: "UserId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -271,16 +292,19 @@ namespace TwitterBackup.Data.Context.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Tweets");
+                name: "UserTweet");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Tweeters");
+                name: "Tweets");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Tweeters");
         }
     }
 }
