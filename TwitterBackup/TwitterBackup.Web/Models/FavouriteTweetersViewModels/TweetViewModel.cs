@@ -1,14 +1,14 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace TwitterBackup.Web.Models.FavouriteTweetersViewModels
+﻿namespace TwitterBackup.Web.Models.FavouriteTweetersViewModels
 {
     public class TweetViewModel
     {
-        public DateTime PostedOn { get; set; }
+        public long Id { get; set; }
 
-        [Required]
-        [DataType(DataType.Text)]
-        public string Content { get; set; }
+        public string Text { get; set; }
+        
+        public int RetweetCount { get; set; }
+
+        public int FavouriteCount { get; set; }
+
     }
 }

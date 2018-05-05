@@ -10,7 +10,7 @@ using TwitterBackup.Data.Services.Utils;
 
 namespace TwitterBackup.Data.Services
 {
-    public class UserTweetService : DatabaseService
+    public class UserTweetService : DatabaseService, IUserTweetService
     {
         private readonly IRepository<UserTweet> userTweetRepository;
         private readonly ITweetService tweetService;

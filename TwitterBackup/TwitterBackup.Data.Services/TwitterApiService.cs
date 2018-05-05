@@ -21,8 +21,17 @@ namespace TwitterBackup.Data.Services
         public async Task<ICollection<TweetDTO>> GetTweets(string screenName)
         {
             var json = await this.twitterApiClient.GetTweets(screenName);
-
+            
             var result = this.jsonDeserializer.Deserialize<TweetDTO[]>(json);
+
+            foreach (var tweetDto in result)
+            {
+                if (tweetDto.Text.LastIndexOf(@"https://") > 0)
+                {
+                    //remove link @ the end
+                    tweetDto.Text = tweetDto.Text.Substring(0, tweetDto.Text.LastIndexOf(@"https://") - 1);
+                }
+            }
 
             return result.ToList();
         }

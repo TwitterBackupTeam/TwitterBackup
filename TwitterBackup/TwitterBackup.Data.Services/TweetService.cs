@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TwitterBackup.Data.DTO;
 using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Repository;
@@ -20,7 +22,7 @@ namespace TwitterBackup.Data.Services
 
         public TweetDTO GetTweetById(long id)
         {
-            var tweet = this.tweetRepository.GetById(id);
+            var tweet = this.tweetRepository.All().Include(t => t.Author).Where(t => t.Id == id).First();
 
             return this.AutoMapper.MapTo<TweetDTO>(tweet);
         }
