@@ -14,17 +14,11 @@ namespace TwitterBackup.Web.Services
 
 		public AdminUserService(IWorkSaver workSaver)
 		{
-			if (workSaver == null)
-			{
-				throw new ArgumentNullException();
-			}
-
-			this.workSaver = workSaver;
+			this.workSaver = workSaver ?? throw new ArgumentNullException();
 		}
 
-		//public async Task<ICollection<UserDto>> GetAllUsersAsync()
-		//=> await this.workSaver.
-		// add users repo
+		public async Task<ICollection<UserDto>> GetAllUsersAsync()
+		=> await this.workSaver.UserRepository.All().ProjectTo<UserDto>.ToListAsync();
 
 		public Task<User> GetUserByUsernameAsync(string userName)
 		{

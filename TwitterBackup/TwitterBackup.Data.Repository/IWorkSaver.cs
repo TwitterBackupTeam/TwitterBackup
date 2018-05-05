@@ -5,7 +5,7 @@ namespace TwitterBackup.Data.Repository
 {
     public interface IWorkSaver
     {
-		IRepository<User> UserRepository;
+		IRepository<User> UserRepository { get; }
 
 		bool SaveChanges();
 

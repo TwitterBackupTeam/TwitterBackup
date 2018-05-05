@@ -61,7 +61,7 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 				UserId = userId
 			};
 
-			return this.View(viewModel);/////////
+			return this.View(viewModel);
 		}
 
 		public IActionResult DeletedTweets(long userId)
@@ -74,7 +74,7 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 				UserId = userId
 			};
 
-			return this.View(viewModel);////////
+			return this.View(viewModel);
 		}
 	}
 }
