@@ -11,8 +11,8 @@ using TwitterBackup.Data.Context;
 namespace TwitterBackup.Data.Context.Migrations
 {
     [DbContext(typeof(TwitterBackupDbContext))]
-    [Migration("20180505112728_initial")]
-    partial class initial
+    [Migration("20180505184759_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
