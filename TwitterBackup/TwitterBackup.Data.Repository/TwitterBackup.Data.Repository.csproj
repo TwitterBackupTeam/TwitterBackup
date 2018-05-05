@@ -8,16 +8,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" PrivateAssets="All" />
 <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.0.2" PrivateAssets="All" />
+<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.2" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TwitterBackup.Data.Context\TwitterBackup.Data.Context.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore">
-      <HintPath>C:\Users\Crepto\.nuget\packages\microsoft.aspnetcore.identity.entityframeworkcore\2.0.2\lib\netstandard2.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll</HintPath>
-    </Reference>
-  </ItemGroup>
 
 </Project>
