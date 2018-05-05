@@ -11,7 +11,7 @@ using TwitterBackup.Data.Context;
 namespace TwitterBackup.Data.Context.Migrations
 {
     [DbContext(typeof(TwitterBackupDbContext))]
-    [Migration("20180505083429_initial")]
+    [Migration("20180505112728_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -160,6 +160,8 @@ namespace TwitterBackup.Data.Context.Migrations
 
                     b.Property<string>("Location");
 
+                    b.Property<string>("Name");
+
                     b.Property<string>("ProfileImageUrl");
 
                     b.Property<string>("ScreenName");
@@ -224,19 +226,13 @@ namespace TwitterBackup.Data.Context.Migrations
 
             modelBuilder.Entity("TwitterBackup.Data.Models.UserTweet", b =>
                 {
-                    b.Property<int>("UserId");
+                    b.Property<string>("UserId");
 
-                    b.Property<int>("TweetId");
-
-                    b.Property<long?>("TweetId1");
-
-                    b.Property<string>("UserId1");
+                    b.Property<long>("TweetId");
 
                     b.HasKey("UserId", "TweetId");
 
-                    b.HasIndex("TweetId1");
-
-                    b.HasIndex("UserId1");
+                    b.HasIndex("TweetId");
 
                     b.ToTable("UserTweet");
                 });
@@ -297,11 +293,13 @@ namespace TwitterBackup.Data.Context.Migrations
                 {
                     b.HasOne("TwitterBackup.Data.Models.Tweet", "Tweet")
                         .WithMany("UserTweets")
-                        .HasForeignKey("TweetId1");
+                        .HasForeignKey("TweetId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TwitterBackup.Data.Models.User", "User")
                         .WithMany("UserTweets")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

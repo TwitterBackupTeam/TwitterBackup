@@ -56,6 +56,7 @@ namespace TwitterBackup.Data.Context.Migrations
                     Description = table.Column<string>(nullable: true),
                     FollowersCount = table.Column<int>(nullable: false),
                     Location = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
                     ProfileImageUrl = table.Column<string>(nullable: true),
                     ScreenName = table.Column<string>(nullable: true),
                     StatusesCount = table.Column<int>(nullable: false)
@@ -197,26 +198,24 @@ namespace TwitterBackup.Data.Context.Migrations
                 name: "UserTweet",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(nullable: false),
-                    TweetId = table.Column<int>(nullable: false),
-                    TweetId1 = table.Column<long>(nullable: true),
-                    UserId1 = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false),
+                    TweetId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserTweet", x => new { x.UserId, x.TweetId });
                     table.ForeignKey(
-                        name: "FK_UserTweet_Tweets_TweetId1",
-                        column: x => x.TweetId1,
+                        name: "FK_UserTweet_Tweets_TweetId",
+                        column: x => x.TweetId,
                         principalTable: "Tweets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserTweet_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_UserTweet_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -264,14 +263,9 @@ namespace TwitterBackup.Data.Context.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserTweet_TweetId1",
+                name: "IX_UserTweet_TweetId",
                 table: "UserTweet",
-                column: "TweetId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserTweet_UserId1",
-                table: "UserTweet",
-                column: "UserId1");
+                column: "TweetId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

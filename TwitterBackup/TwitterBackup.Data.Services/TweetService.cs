@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using TwitterBackup.Data.Context;
 using TwitterBackup.Data.DTO;
 using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Repository;
@@ -10,24 +9,20 @@ using TwitterBackup.Data.Services.Utils;
 
 namespace TwitterBackup.Data.Services
 {
-    public class TweetService : ITweetService
+    public class TweetService : DatabaseService, ITweetService
     {
         private readonly IRepository<Tweet> tweetRepository;
-        private readonly IAutoMapper autoMapper;
-        private readonly IWorkSaver workSaver;
 
-        public TweetService(IRepository<Tweet> tweetRepository, IAutoMapper autoMapper, IWorkSaver workSaver)
+        public TweetService(IRepository<Tweet> tweetRepository, IAutoMapper autoMapper, IWorkSaver workSaver) : base(autoMapper, workSaver)
         {
             this.tweetRepository = tweetRepository;
-            this.autoMapper = autoMapper;
-            this.workSaver = workSaver;
         }
 
         public TweetDTO GetTweetById(long id)
         {
             var tweet = this.tweetRepository.GetById(id);
 
-            return this.autoMapper.MapTo<TweetDTO>(tweet);
+            return this.AutoMapper.MapTo<TweetDTO>(tweet);
         }
 
         public async Task<bool> Add(TweetDTO dto)
@@ -37,11 +32,11 @@ namespace TwitterBackup.Data.Services
                 throw new ArgumentException("This tweet is already added.");
             }
 
-            var tweet = this.autoMapper.MapTo<Tweet>(dto);
+            var tweet = this.AutoMapper.MapTo<Tweet>(dto);
             tweet.CreatedAt = DateTime.ParseExact(dto.CreatedAtStr, "ddd MMM dd HH:mm:ss K yyyy",
                 CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
             this.tweetRepository.Add(tweet);
-            var res = await this.workSaver.SaveChangesAsync();
+            var res = await this.WorkSaver.SaveChangesAsync();
 
             return res;
         }
@@ -49,7 +44,7 @@ namespace TwitterBackup.Data.Services
         public async Task<bool> Delete(long id)
         {
             this.tweetRepository.Delete(this.tweetRepository.GetById(id));
-            var res = await this.workSaver.SaveChangesAsync();
+            var res = await this.WorkSaver.SaveChangesAsync();
 
             return res;
         }
