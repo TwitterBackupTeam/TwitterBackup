@@ -32,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Models\Users\" />
     <Folder Include="Areas\Admin\Views\Users\" />
   </ItemGroup>
 
