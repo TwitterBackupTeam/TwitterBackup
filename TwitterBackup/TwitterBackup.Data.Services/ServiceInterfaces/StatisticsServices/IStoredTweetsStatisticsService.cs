@@ -5,7 +5,7 @@ namespace TwitterBackup.Data.Services.ServiceInterfaces.StatisticsServices
 {
 	public interface IStoredTweetsStatisticsService
     {
-		IEnumerable<StoredTweetDTO> GetStoredTweetsByUserId(long userId);
-		IEnumerable<DeletedTweetDTO> GetDeletedTweetsByUserId(long userId);
+		ICollection<StoredTweetDTO> GetStoredTweetsByUserId(long userId);
+		ICollection<DeletedTweetDTO> GetDeletedTweetsByUserId(long userId);
 	}
 }

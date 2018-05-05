@@ -5,7 +5,7 @@ namespace TwitterBackup.Web.Areas.Admin.Models.Statistics
 {
 	public class FavouriteTweetersViewModel
     {
-		public IEnumerable<FavouriteTweeterDTO> FavouriteTweetersModels { get; set; }
+		public ICollection<FavouriteTweeterDTO> FavouriteTweetersModels { get; set; }
 
 		public long UserId { get; set; }
 	}

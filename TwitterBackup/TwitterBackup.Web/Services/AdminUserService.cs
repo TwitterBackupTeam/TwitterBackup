@@ -9,7 +9,7 @@ namespace TwitterBackup.Web.Services
 {
 	public class AdminUserService : IAdminUserService
 	{
-		public Task<IEnumerable<UserDto>> AllAsync()
+		public Task<ICollection<UserDto>> AllAsync()
 		{
 			throw new NotImplementedException();
 		}

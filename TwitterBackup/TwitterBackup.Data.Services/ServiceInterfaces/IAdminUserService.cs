@@ -7,7 +7,7 @@ namespace TwitterBackup.Data.Services.ServiceInterfaces
 {
 	public interface IAdminUserService
 	{
-		Task<IEnumerable<UserDto>> AllAsync();
+		Task<ICollection<UserDto>> AllAsync();
 
 		Task<User> SingleUserByUsernameAsync(string userName);
 

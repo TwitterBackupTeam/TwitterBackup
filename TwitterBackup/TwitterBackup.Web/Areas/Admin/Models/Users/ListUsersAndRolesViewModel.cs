@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using TwitterBackup.Data.DTO;
 
 namespace TwitterBackup.Web.Areas.Admin.Models.Users
 {
-    public class ListUsersAndRolesViewModel
+	public class ListUsersAndRolesViewModel
     {
-    }
+		public ICollection<UserDto> Users { get; set; }
+
+		public ICollection<SelectListItem> Roles { get; set; }
+	}
 }
