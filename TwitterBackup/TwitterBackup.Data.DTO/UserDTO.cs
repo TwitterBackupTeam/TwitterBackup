@@ -2,7 +2,7 @@
 
 namespace TwitterBackup.Data.DTO
 {
-	public class UserDto
+	public class UserDTO
 	{
 		[JsonProperty("id")]
 		public string Id { get; set; }
