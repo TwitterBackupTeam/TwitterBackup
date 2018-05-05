@@ -7,9 +7,17 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 	[Authorize(Roles = "Administrators")]
 	public class UsersController : Controller
     {
+		public UsersController()
+		{
+
+		}
         public IActionResult Index()
         {
             return View();
         }
-    }
+
+		// delete user - cascade, entities as well!
+
+		// update user role
+	}
 }
