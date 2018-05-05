@@ -1,24 +1,25 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TwitterBackup.Data.DTO;
 using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Repository;
 using TwitterBackup.Data.Services.ServiceInterfaces;
+using TwitterBackup.Data.Services.Utils;
 
 namespace TwitterBackup.Web.Services
 {
 	public class AdminUserService : IAdminUserService
 	{
 		private readonly IWorkSaver workSaver;
+		private readonly UserManager<User> userManager;
 
-		public AdminUserService(IWorkSaver workSaver)
+		public AdminUserService(IWorkSaver workSaver, UserManager<User> userManager)
 		{
 			this.workSaver = workSaver ?? throw new ArgumentNullException();
+			this.userManager = userManager;
 		}
-
-		public async Task<ICollection<UserDto>> GetAllUsersAsync()
-		=> await this.workSaver.UserRepository.All().ProjectTo<UserDto>.ToListAsync();
 
 		public Task<User> GetUserByUsernameAsync(string userName)
 		{
@@ -30,5 +31,7 @@ namespace TwitterBackup.Web.Services
 			throw new NotImplementedException();
 		}
 
+		public async Task<ICollection<UserDTO>> GetUsersInRolesAsync()
+		=> await this.userManager.GetUsersInRoleAsync("Administrator");
 	}
 }
