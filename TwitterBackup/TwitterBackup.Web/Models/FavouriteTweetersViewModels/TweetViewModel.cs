@@ -9,6 +9,7 @@ namespace TwitterBackup.Web.Models.FavouriteTweetersViewModels
 
         [Required]
         [DataType(DataType.Text)]
+
         public string Content { get; set; }
     }
 }

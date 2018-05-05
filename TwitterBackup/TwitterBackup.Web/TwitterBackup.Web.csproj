@@ -35,7 +35,6 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\Users\" />
     <Folder Include="Areas\Admin\Views\Users\" />
-    <Folder Include="Areas\Admin\Views\Statistics\" />
   </ItemGroup>
 
 </Project>
