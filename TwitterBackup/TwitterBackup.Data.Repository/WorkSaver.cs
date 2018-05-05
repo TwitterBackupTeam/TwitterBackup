@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using TwitterBackup.Data.Context;
 
 namespace TwitterBackup.Data.Repository
 {
     public class WorkSaver : IWorkSaver
     {
-        private readonly DbContext dbContext;
+        private readonly TwitterBackupDbContext dbContext;
 
-        public WorkSaver(DbContext context)
+        public WorkSaver(TwitterBackupDbContext context)
         {
             this.dbContext = context;
         }
@@ -44,6 +44,25 @@ namespace TwitterBackup.Data.Repository
             {
                 try
                 {
+                    //await this.dbContext.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT Tweeters ON;");
+
+                    //// Detach all tweets
+                    //var tweetsThatNeedToBeUpdated = this.dbContext.ChangeTracker.Entries<Tweet>().Where(x =>
+                    //    x.State != EntityState.Detached
+                    //    && x.State != EntityState.Unchanged);
+
+                    //this.dbContext.ChangeTracker.Entries<Tweet>().Select(e => e.State = EntityState.Detached);
+                    //result = await this.dbContext.SaveChangesAsync(false);
+                    //dbContextTransaction.Commit();
+
+                    //await this.dbContext.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT Tweeters OFF; SET IDENTITY_INSERT Tweets ON;");
+                    //this.dbContext.ChangeTracker.Entries<Tweet>().
+                    //    Where(e => tweetsThatNeedToBeUpdated.Contains(e)).
+                    //    Select(e => e.State = tweetsThatNeedToBeUpdated.First(en => en == e).State);
+                    //result = await this.dbContext.SaveChangesAsync(false);
+                    //dbContextTransaction.Commit();
+                    //await this.dbContext.Database.ExecuteSqlCommandAsync("SET IDENTITY_INSERT Tweets OFF;");
+
                     result = await this.dbContext.SaveChangesAsync();
                     dbContextTransaction.Commit();
                 }
@@ -51,8 +70,13 @@ namespace TwitterBackup.Data.Repository
                 {
                     dbContextTransaction.Rollback();
 
-                    // proper stack trace
-                    ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
+                    if (ex is AggregateException)
+                    {
+                        // proper stack trace
+                        ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
+                    }
+
+                    throw;
                 }
             }
 

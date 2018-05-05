@@ -11,8 +11,8 @@ using TwitterBackup.Data.Context;
 namespace TwitterBackup.Data.Context.Migrations
 {
     [DbContext(typeof(TwitterBackupDbContext))]
-    [Migration("20180428145206_Tweet_Users_Many2Many")]
-    partial class Tweet_Users_Many2Many
+    [Migration("20180505083429_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,16 +131,13 @@ namespace TwitterBackup.Data.Context.Migrations
 
             modelBuilder.Entity("TwitterBackup.Data.Models.Tweet", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<long>("Id");
 
                     b.Property<long?>("AuthorId");
 
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<int>("FavouriteCount");
-
-                    b.Property<string>("HashTags");
 
                     b.Property<int>("RetweetCount");
 
@@ -155,8 +152,7 @@ namespace TwitterBackup.Data.Context.Migrations
 
             modelBuilder.Entity("TwitterBackup.Data.Models.Tweeter", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<long>("Id");
 
                     b.Property<string>("Description");
 

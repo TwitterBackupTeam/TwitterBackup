@@ -24,8 +24,6 @@ namespace TwitterBackup.Data.Models
 
         public Tweeter Author { get; set; }
 
-        public string HashTags { get; set; }
-
         /// <summary>
         /// Users who happen to have this tweet in their favourite collection.
         /// </summary>
