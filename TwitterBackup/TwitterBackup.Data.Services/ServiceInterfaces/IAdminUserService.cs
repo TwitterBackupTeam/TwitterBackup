@@ -7,10 +7,10 @@ namespace TwitterBackup.Data.Services.ServiceInterfaces
 {
 	public interface IAdminUserService
 	{
-		Task<ICollection<UserDto>> AllAsync();
+		Task<ICollection<UserDto>> GetAllUsersAsync();
 
-		Task<User> SingleUserByUsernameAsync(string userName);
+		Task<User> GetUserByUsernameAsync(string userName);
 
-		void DeleteByUserId(string userId);
+		void DeleteUserByUserId(string userId);
 	}
 }

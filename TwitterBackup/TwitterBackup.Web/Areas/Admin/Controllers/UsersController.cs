@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TwitterBackup.Data.Models;
+using TwitterBackup.Data.Services.ServiceInterfaces;
 
 namespace TwitterBackup.Web.Areas.Admin.Controllers
 {
@@ -7,6 +10,11 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 	[Authorize(Roles = "Administrators")]
 	public class UsersController : Controller
     {
+		private readonly UserManager<User> userManager;
+		private readonly RoleManager<IdentityRole> roleManager;
+		private readonly IAdminUserService userService;
+
+
 		public UsersController()
 		{
 

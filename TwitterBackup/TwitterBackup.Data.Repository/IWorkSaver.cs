@@ -1,10 +1,13 @@
 ﻿using System.Threading.Tasks;
+using TwitterBackup.Data.Models;
 
 namespace TwitterBackup.Data.Repository
 {
     public interface IWorkSaver
     {
-        bool SaveChanges();
+		IRepository<User> UserRepository;
+
+		bool SaveChanges();
 
         Task<bool> SaveChangesAsync();
     }
