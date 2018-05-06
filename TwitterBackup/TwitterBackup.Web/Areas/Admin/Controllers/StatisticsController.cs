@@ -16,10 +16,12 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 		private readonly IAdminUserService adminUserSevice;
 
 		public StatisticsController(IFavouriteTweetersStatisticsService tweetersStatisticsService,
-									IStoredTweetsStatisticsService tweetsStatisticsService)
+									IStoredTweetsStatisticsService tweetsStatisticsService,
+									IStatisticsService statisticsService)
 		{
 			this.tweetersStatisticsService = tweetersStatisticsService;
 			this.tweetsStatisticsService = tweetsStatisticsService;
+			this.statisticsService = statisticsService;
 		}
 
 		public IActionResult Index()
