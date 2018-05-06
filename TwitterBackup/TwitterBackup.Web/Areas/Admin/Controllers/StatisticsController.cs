@@ -25,7 +25,14 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 		public IActionResult Index()
 		{
 			var userStatisticsDTOs = this.statisticsService.UsersStatistics();
-			return this.View();
+
+			var viewModel = new StatisticsViewModel()
+			{
+				UserStatisticsDTOs = userStatisticsDTOs.UserStatisticsDTOs,
+				OverallStatistics = userStatisticsDTOs.OverallStatisticsDTO
+			};
+
+			return this.View(viewModel);
 		}
 
 		public IActionResult FavouriteTweeters(long userId)
