@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TwitterBackup.Data.Services.ServiceInterfaces;
 using TwitterBackup.Data.Services.ServiceInterfaces.StatisticsServices;
 using TwitterBackup.Web.Areas.Admin.Models.Statistics;
 
@@ -11,6 +12,8 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 	{
 		private readonly IFavouriteTweetersStatisticsService tweetersStatisticsService;
 		private readonly IStoredTweetsStatisticsService tweetsStatisticsService;
+		private readonly IStatisticsService statisticsService;
+		private readonly IAdminUserService adminUserSevice;
 
 		public StatisticsController(IFavouriteTweetersStatisticsService tweetersStatisticsService,
 									IStoredTweetsStatisticsService tweetsStatisticsService)
@@ -21,8 +24,8 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 
 		public IActionResult Index()
 		{
-			/////////
-			return this.View();/////
+			var userStatisticsDTOs = this.statisticsService.UsersStatistics();
+			return this.View();
 		}
 
 		public IActionResult FavouriteTweeters(long userId)
