@@ -1,26 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Runtime.ExceptionServices;
 using System.Threading.Tasks;
-using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Context;
+using TwitterBackup.Data.Models;
 
 namespace TwitterBackup.Data.Repository
 {
-    public class WorkSaver : IWorkSaver
+	public class WorkSaver : IWorkSaver
     {
         private readonly TwitterBackupDbContext dbContext;
 		private IRepository<User> userRepository;
 
-		public WorkSaver(TwitterBackupDbContext dbContext)
+		public WorkSaver(TwitterBackupDbContext dbContext, IRepository<User> userRepository)
 		{
 			this.dbContext = dbContext ?? throw new ArgumentNullException("DbContext should not be null");
-		}
-
-		public WorkSaver(IRepository<User> userRepository)
-		{
 			this.userRepository = userRepository;
 		}
+
+		//public WorkSaver(IRepository<User> userRepository)
+		//{
+		//	this.userRepository = userRepository;
+		//}
 
 		public IRepository<User> UserRepository
 		{

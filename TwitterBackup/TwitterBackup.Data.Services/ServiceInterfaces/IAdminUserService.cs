@@ -9,7 +9,7 @@ namespace TwitterBackup.Data.Services.ServiceInterfaces
 	{
 		//Task<ICollection<UserDTO>> GetUsersInRolesAsync();
 
-		Task<User> GetUserByUsernameAsync(string userName);
+		Task<User> GetUserByUsernameAsync(string screenName);
 
 		void DeleteUserByUserId(string userId);
 	}
