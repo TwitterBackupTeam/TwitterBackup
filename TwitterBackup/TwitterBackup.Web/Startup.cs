@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ReTwitter.Services.Data.Statistics;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Repository;
 using TwitterBackup.Data.Services;
 using TwitterBackup.Data.Services.ServiceInterfaces;
+using TwitterBackup.Data.Services.ServiceInterfaces.StatisticsServices;
 using TwitterBackup.Data.Services.Utils;
 using TwitterBackup.Web.Services;
 
@@ -66,6 +68,8 @@ namespace TwitterBackup.Web
 			services.AddTransient<IWorkSaver, WorkSaver>();
 			services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
 			services.AddTransient<IAdminUserService, AdminUserService>();
+			services.AddTransient<IStatisticsService, StatisticsService>();
+
 			services.AddMvc();
 		}
 

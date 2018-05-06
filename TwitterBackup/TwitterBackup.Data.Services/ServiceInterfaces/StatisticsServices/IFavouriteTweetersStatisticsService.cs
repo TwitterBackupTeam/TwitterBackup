@@ -5,8 +5,8 @@ namespace TwitterBackup.Data.Services.ServiceInterfaces.StatisticsServices
 {
 	public interface IFavouriteTweetersStatisticsService
     {
-		ICollection<FavouriteTweeterDTO> GetFavouriteTweetersByUserId(long userId);
+		ICollection<FavouriteTweeterDTO> GetFavouriteTweetersByUserId(string userId);
 
-		ICollection<DeletedFavouriteTweeterDTO> GetDeletedFavouriteTweetersByUserId(long userId);
+		ICollection<DeletedFavouriteTweeterDTO> GetDeletedFavouriteTweetersByUserId(string userId);
 	}
 }

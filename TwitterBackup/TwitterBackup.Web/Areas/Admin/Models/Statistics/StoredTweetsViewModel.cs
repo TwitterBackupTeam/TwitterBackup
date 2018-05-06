@@ -7,6 +7,6 @@ namespace TwitterBackup.Web.Areas.Admin.Models.Statistics
     {
 		public ICollection<StoredTweetDTO> StoredTweetsModels { get; set; }
 
-		public long UserId { get; set; }
+		public string UserId { get; set; }
 	}
 }

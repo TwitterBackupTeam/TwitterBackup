@@ -7,7 +7,7 @@ using TwitterBackup.Web.Areas.Admin.Models.Statistics;
 namespace TwitterBackup.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	[Authorize(Roles = "Administrators")]
+	[Authorize(Roles = "Administrator")]
 	public class StatisticsController : Controller
 	{
 		private readonly IFavouriteTweetersStatisticsService tweetersStatisticsService;
@@ -37,7 +37,7 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 			return this.View(viewModel);
 		}
 
-		public IActionResult FavouriteTweeters(long userId)
+		public IActionResult FavouriteTweeters(string userId)
 		{
 			var favouriteTweeters = this.tweetersStatisticsService.GetFavouriteTweetersByUserId(userId);
 
@@ -50,7 +50,7 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 			return this.View(viewModel);
 		}
 
-		public IActionResult DeletedFavouriteTweeters(long userId)
+		public IActionResult DeletedFavouriteTweeters(string userId)
 		{
 			var deletedFavouriteTweeters = this.tweetersStatisticsService.GetDeletedFavouriteTweetersByUserId(userId);
 
@@ -63,7 +63,7 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 			return this.View(viewModel);
 		}
 
-		public IActionResult StoredTweets(long userId)
+		public IActionResult StoredTweets(string userId)
 		{
 			var storedTweets = this.tweetsStatisticsService.GetStoredTweetsByUserId(userId);
 
@@ -76,7 +76,7 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 			return this.View(viewModel);
 		}
 
-		public IActionResult DeletedTweets(long userId)
+		public IActionResult DeletedTweets(string userId)
 		{
 			var deletedTweets = this.tweetsStatisticsService.GetDeletedTweetsByUserId(userId);
 
