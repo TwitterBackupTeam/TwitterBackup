@@ -3,8 +3,6 @@
 	public class UserStatisticsDTO
     {
 		public string Id { get; set; }
-		
-		public int FollowersCount { get; set; }
 
 		public string UserName { get; set; }
 

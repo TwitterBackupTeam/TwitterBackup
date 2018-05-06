@@ -48,6 +48,8 @@ namespace ReTwitter.Services.Data.Statistics
 			}).ToList();
 
 			Dictionary<string, UserStatisticsDTO> userStatisticsDTOs = new Dictionary<string, UserStatisticsDTO>();
+			OverallStatisticsDTO overallStatisticsDTO = new OverallStatisticsDTO();
+
 			foreach(var user in allUsers)
 			{
 				userStatisticsDTOs[user.UserName] = new UserStatisticsDTO
@@ -58,6 +60,18 @@ namespace ReTwitter.Services.Data.Statistics
 				};
 			}
 
+			foreach (var dto in userStatisticsDTOs)
+			{ 
+				dto.Value.StoredTweetsCount = allUserTweets.Count(ut => ut.UserName == dto.Key && !ut.IsDeleted);
+				dto.Value.DeletedTweetsCount = allUserTweets.Count(ut => ut.UserName == dto.Key && ut.IsDeleted);
+				dto.Value.FavouriteTweetersCount = allUsersTweeters.Count(ut => ut.UserName == dto.Key && !ut.IsDeleted);
+				dto.Value.DeletedFavouriteTweetersCount = allUsersTweeters.Count(ut => ut.UserName == dto.Key && ut.IsDeleted);
+
+				overallStatisticsDTO.TotalFavouriteTweetersCount += dto.Value.FavouriteTweetersCount;
+				overallStatisticsDTO.TotalStoredTweetsCount += dto.Value.StoredTweetsCount;
+			}
+
+			StatisticsDTO statisticsDTO = new StatisticsDTO() { };
 			
 		}
 	}
