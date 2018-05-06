@@ -10,8 +10,8 @@ namespace TwitterBackup.Data.DTO
 		[JsonProperty("followers_count")]
 		public int FollowersCount { get; set; }
 
-		[JsonProperty("screen_name")]
-		public string ScreenName { get; set; }
+		[JsonProperty("user_name")]
+		public string UserName { get; set; }
 	}
 
 }

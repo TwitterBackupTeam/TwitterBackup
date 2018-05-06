@@ -21,10 +21,10 @@ namespace ReTwitter.Services.Data.Statistics
 
 		public ICollection<UserStatisticsDTO> UsersStatistics()
 		{
-			var allUsers = this.workSaver.UserRepository.All().Select(user => new UserStatisticsDTO
+			var allUsers = this.userRepository.All().Select(user => new UserStatisticsDTO
 			{
 				Id = user.Id,
-				ScreenName = user.,
+				UserName = user.UserName,
 
 
 			}).ToList();

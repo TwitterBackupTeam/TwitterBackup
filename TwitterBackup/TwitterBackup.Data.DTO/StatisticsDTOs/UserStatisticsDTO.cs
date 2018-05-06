@@ -6,14 +6,14 @@
 		
 		public int FollowersCount { get; set; }
 
-		public string ScreenName { get; set; }
+		public string UserName { get; set; }
 
-		public int SavedTweetsCount { get; set; }
+		public int StoredTweetsCount { get; set; }
 
 		public int DeletedTweetsCount { get; set; }
 
-		public int FavouriteTweetrsCount { get; set; }
+		public int FavouriteTweetersCount { get; set; }
 
-		public int DeletedFavouriteTweetrsCount { get; set; }
+		public int DeletedFavouriteTweetersCount { get; set; }
 	}
 }
