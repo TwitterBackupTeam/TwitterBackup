@@ -25,20 +25,10 @@ namespace ReTwitter.Services.Data.Statistics
 			{
 				Id = user.Id,
 				UserName = user.UserName,
-
-
+				IsDeleted = user.IsDeleted
 			}).ToList();
 
-
-
-			//foreach (var userModel in usesStatisticsModels)
-			//{
-
-			//}
-
-			//var statisticsModels = new IEnumerable<UserStatisticsModel>(usesStatisticsModels.Values);
-
-			//return statisticsModels;
+			
 		}
 	}
 }

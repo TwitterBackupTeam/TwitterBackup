@@ -9,33 +9,12 @@ namespace TwitterBackup.Data.Repository
 	public class WorkSaver : IWorkSaver
     {
         private readonly TwitterBackupDbContext dbContext;
-		private IRepository<User> userRepository;
 
 		public WorkSaver(TwitterBackupDbContext dbContext, IRepository<User> userRepository)
 		{
 			this.dbContext = dbContext ?? throw new ArgumentNullException("DbContext should not be null");
-			this.userRepository = userRepository;
 		}
-
-		//public WorkSaver(IRepository<User> userRepository)
-		//{
-		//	this.userRepository = userRepository;
-		//}
-
-		public IRepository<User> UserRepository
-		{
-			get
-			{
-				if (this.userRepository == null)
-				{
-					this.userRepository = new EfRepository<User>(dbContext);
-				}
-
-				return this.userRepository;
-			}
-		}
-
-
+		
 		public bool SaveChanges()
 		{
 			int result;

@@ -15,5 +15,7 @@
 		public int FavouriteTweetersCount { get; set; }
 
 		public int DeletedFavouriteTweetersCount { get; set; }
+
+		public bool IsDeleted { get; set; }
 	}
 }
