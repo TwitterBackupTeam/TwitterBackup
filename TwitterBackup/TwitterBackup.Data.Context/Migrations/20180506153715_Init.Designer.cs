@@ -11,8 +11,8 @@ using TwitterBackup.Data.Context;
 namespace TwitterBackup.Data.Context.Migrations
 {
     [DbContext(typeof(TwitterBackupDbContext))]
-    [Migration("20180504160504_Fix the database")]
-    partial class Fixthedatabase
+    [Migration("20180506153715_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,16 +131,19 @@ namespace TwitterBackup.Data.Context.Migrations
 
             modelBuilder.Entity("TwitterBackup.Data.Models.Tweet", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<long>("Id");
 
                     b.Property<long?>("AuthorId");
 
                     b.Property<DateTime>("CreatedAt");
 
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<int>("FavouriteCount");
 
                     b.Property<string>("HashTags");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<int>("RetweetCount");
 
@@ -155,14 +158,19 @@ namespace TwitterBackup.Data.Context.Migrations
 
             modelBuilder.Entity("TwitterBackup.Data.Models.Tweeter", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<long>("Id");
+
+                    b.Property<DateTime?>("DeletedOn");
 
                     b.Property<string>("Description");
 
                     b.Property<int>("FollowersCount");
 
+                    b.Property<bool>("IsDeleted");
+
                     b.Property<string>("Location");
+
+                    b.Property<string>("Name");
 
                     b.Property<string>("ProfileImageUrl");
 
@@ -185,12 +193,16 @@ namespace TwitterBackup.Data.Context.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<string>("LastName");
 
@@ -234,19 +246,17 @@ namespace TwitterBackup.Data.Context.Migrations
 
             modelBuilder.Entity("TwitterBackup.Data.Models.UserTweet", b =>
                 {
-                    b.Property<int>("UserId");
+                    b.Property<string>("UserId");
 
-                    b.Property<int>("TweetId");
+                    b.Property<long>("TweetId");
 
-                    b.Property<long?>("TweetId1");
+                    b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<string>("UserId1");
+                    b.Property<bool>("IsDeleted");
 
                     b.HasKey("UserId", "TweetId");
 
-                    b.HasIndex("TweetId1");
-
-                    b.HasIndex("UserId1");
+                    b.HasIndex("TweetId");
 
                     b.ToTable("UserTweet");
                 });
@@ -307,11 +317,13 @@ namespace TwitterBackup.Data.Context.Migrations
                 {
                     b.HasOne("TwitterBackup.Data.Models.Tweet", "Tweet")
                         .WithMany("UserTweets")
-                        .HasForeignKey("TweetId1");
+                        .HasForeignKey("TweetId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("TwitterBackup.Data.Models.User", "User")
                         .WithMany("UserTweets")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

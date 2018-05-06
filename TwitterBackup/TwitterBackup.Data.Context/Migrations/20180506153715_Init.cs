@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace TwitterBackup.Data.Context.Migrations
 {
-    public partial class initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,8 +30,12 @@ namespace TwitterBackup.Data.Context.Migrations
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    LastName = table.Column<string>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
@@ -40,6 +44,7 @@ namespace TwitterBackup.Data.Context.Migrations
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
+                    TwitterName = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true)
                 },
@@ -53,8 +58,10 @@ namespace TwitterBackup.Data.Context.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     FollowersCount = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     Location = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     ProfileImageUrl = table.Column<string>(nullable: true),
@@ -179,7 +186,10 @@ namespace TwitterBackup.Data.Context.Migrations
                     Id = table.Column<long>(nullable: false),
                     AuthorId = table.Column<long>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     FavouriteCount = table.Column<int>(nullable: false),
+                    HashTags = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     RetweetCount = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true)
                 },
@@ -199,7 +209,9 @@ namespace TwitterBackup.Data.Context.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    TweetId = table.Column<long>(nullable: false)
+                    TweetId = table.Column<long>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

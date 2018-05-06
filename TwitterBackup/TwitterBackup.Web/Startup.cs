@@ -87,7 +87,7 @@ namespace TwitterBackup.Web
 
 			app.UseAuthentication();
 
-            Seed(app.ApplicationServices).Wait();
+            //Seed(app.ApplicationServices).Wait();
 
 			app.UseMvc(routes =>
 			{

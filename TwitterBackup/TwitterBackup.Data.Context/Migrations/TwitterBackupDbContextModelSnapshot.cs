@@ -136,7 +136,13 @@ namespace TwitterBackup.Data.Context.Migrations
 
                     b.Property<DateTime>("CreatedAt");
 
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<int>("FavouriteCount");
+
+                    b.Property<string>("HashTags");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<int>("RetweetCount");
 
@@ -153,9 +159,13 @@ namespace TwitterBackup.Data.Context.Migrations
                 {
                     b.Property<long>("Id");
 
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<string>("Description");
 
                     b.Property<int>("FollowersCount");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<string>("Location");
 
@@ -182,12 +192,16 @@ namespace TwitterBackup.Data.Context.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.Property<string>("LastName");
 
@@ -234,6 +248,10 @@ namespace TwitterBackup.Data.Context.Migrations
                     b.Property<string>("UserId");
 
                     b.Property<long>("TweetId");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.HasKey("UserId", "TweetId");
 
