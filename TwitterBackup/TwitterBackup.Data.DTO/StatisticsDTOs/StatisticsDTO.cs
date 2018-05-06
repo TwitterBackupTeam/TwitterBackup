@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace TwitterBackup.Data.DTO.StatisticsDTOs
 {
-    public class StatisticsDTO
+	public class StatisticsDTO
     {
-		Dictionary<string, UserStatisticsDTO> UserStatisticsDTOs;
+		ICollection<UserStatisticsDTO> UserStatisticsDTOs;
 	}
 }
