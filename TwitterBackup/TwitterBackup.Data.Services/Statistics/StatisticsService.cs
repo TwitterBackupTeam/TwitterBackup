@@ -47,6 +47,16 @@ namespace ReTwitter.Services.Data.Statistics
 				IsDeleted = userTweet.IsDeleted
 			}).ToList();
 
+			Dictionary<string, UserStatisticsDTO> userStatisticsDTOs = new Dictionary<string, UserStatisticsDTO>();
+			foreach(var user in allUsers)
+			{
+				userStatisticsDTOs[user.UserName] = new UserStatisticsDTO
+				{
+					UserName = user.UserName,
+					Id = user.Id,
+					IsDeleted = user.IsDeleted
+				};
+			}
 
 		}
 	}
