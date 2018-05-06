@@ -33,41 +33,41 @@ namespace TwitterBackup.Web
 			services.AddDbContext<TwitterBackupDbContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 5;
-                options.Password.RequireLowercase = false;
-                options.Password.RequiredUniqueChars = 0;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-            });
+			services.Configure<IdentityOptions>(options =>
+			{
+				options.Password.RequireDigit = false;
+				options.Password.RequiredLength = 5;
+				options.Password.RequireLowercase = false;
+				options.Password.RequiredUniqueChars = 0;
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireUppercase = false;
+			});
 
 			services.AddIdentity<User, IdentityRole>()
 				.AddEntityFrameworkStores<TwitterBackupDbContext>()
 				.AddDefaultTokenProviders();
 
-            // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.AddAutoMapper(cfg => cfg.ValidateInlineMaps = false);
+			// Add application services.
+			services.AddTransient<IEmailSender, EmailSender>();
+			services.AddAutoMapper(cfg => cfg.ValidateInlineMaps = false);
 
-            services.AddTransient<IJsonDeserializer, JsonDeserializer>();
-            services.AddTransient<ITwitterAPIClient, TwitterApiClient>(serviceProvider =>
-            {
-                return new TwitterApiClient(Environment.GetEnvironmentVariable("TwitterConsumerKey"),
-                    Environment.GetEnvironmentVariable("TwitterConsumerKeySecret"),
-                    Environment.GetEnvironmentVariable("TwitterAccessToken"),
-                    Environment.GetEnvironmentVariable("TwitterAccessTokenSecret"));
-            });
-            services.AddTransient<ITwitterAPIService, TwitterApiService>();
-            services.AddTransient<ITweetService, TweetService>();
-            services.AddTransient<IUserTweetService, UserTweetService>();
-            services.AddTransient<IAutoMapper, AutoMapperWrapper>();
-            services.AddTransient<IWorkSaver, WorkSaver>();
-            services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
+			services.AddTransient<IJsonDeserializer, JsonDeserializer>();
+			services.AddTransient<ITwitterAPIClient, TwitterApiClient>(serviceProvider =>
+			{
+				return new TwitterApiClient(Environment.GetEnvironmentVariable("TwitterConsumerKey"),
+					Environment.GetEnvironmentVariable("TwitterConsumerKeySecret"),
+					Environment.GetEnvironmentVariable("TwitterAccessToken"),
+					Environment.GetEnvironmentVariable("TwitterAccessTokenSecret"));
+			});
+			services.AddTransient<ITwitterAPIService, TwitterApiService>();
+			services.AddTransient<ITweetService, TweetService>();
+			services.AddTransient<IUserTweetService, UserTweetService>();
+			services.AddTransient<IAutoMapper, AutoMapperWrapper>();
+			services.AddTransient<IWorkSaver, WorkSaver>();
+			services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
 			services.AddTransient<IAdminUserService, AdminUserService>();
 			services.AddMvc();
-        }
+		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -87,8 +87,55 @@ namespace TwitterBackup.Web
 
 			app.UseAuthentication();
 
-            //Seed(app.ApplicationServices).Wait();
+			//Seed(app.ApplicationServices).Wait();
+			var serviceProvider = app.ApplicationServices;
+			using (var serviceScope = serviceProvider.CreateScope())
+			{
+				var context = (TwitterBackupDbContext)serviceScope.ServiceProvider.GetService(typeof(TwitterBackupDbContext));
 
+				if (!context.Users.Any())
+				{
+					var userManager = (UserManager<User>)serviceScope.ServiceProvider.GetService(typeof(UserManager<User>));
+					var roleManager = (RoleManager<IdentityRole>)serviceScope.ServiceProvider.GetService(typeof(RoleManager<IdentityRole>));
+					
+					Task.Run(async () =>
+					{
+						var adminUserName = "Administrator";
+						
+						var roleExists = await roleManager.RoleExistsAsync(adminUserName);
+
+						if (!roleExists)
+						{
+							var identityRole = new IdentityRole()
+							{
+								Name = adminUserName
+							};
+							await roleManager.CreateAsync(identityRole);
+						}
+
+
+						var adminEmail = "admin@admin.com";
+
+						var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+						if (adminUser == null)
+						{
+							adminUser = new User
+							{
+								Email = adminEmail,
+								UserName = adminUserName
+							};
+
+							await userManager.CreateAsync(adminUser, "mor3c0mpl3xp4$$w0rd");
+
+							await userManager.AddToRoleAsync(adminUser, adminUserName);
+						}
+					})
+					.Wait();
+
+					context.SaveChanges();
+				}
+			}
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
@@ -102,41 +149,41 @@ namespace TwitterBackup.Web
 			});
 		}
 
-        private async Task Seed(IServiceProvider serviceProvider)
-        {
-            using (var serviceScope = serviceProvider.CreateScope())
-            {
-                var context = (TwitterBackupDbContext)serviceScope.ServiceProvider.GetService(typeof(TwitterBackupDbContext));
+		private async Task Seed(IServiceProvider serviceProvider)
+		{
+			using (var serviceScope = serviceProvider.CreateScope())
+			{
+				var context = (TwitterBackupDbContext)serviceScope.ServiceProvider.GetService(typeof(TwitterBackupDbContext));
 
-                if (!context.Users.Any())
-                {
-                    var userManager = (UserManager<User>)serviceScope.ServiceProvider.GetService(typeof(UserManager<User>));
+				if (!context.Users.Any())
+				{
+					var userManager = (UserManager<User>)serviceScope.ServiceProvider.GetService(typeof(UserManager<User>));
 
-                    var user = new User
-                    {
-                        UserName = "k.zhekow@gmail.com",
-                        Email = "k.zhekow@gmail.com"
-                    };
+					var user = new User
+					{
+						UserName = "k.zhekow@gmail.com",
+						Email = "k.zhekow@gmail.com"
+					};
 
-                    var createdUser = await userManager.CreateAsync(user, "mor3c0mpl3xp4$$w0rd");
-                    context.SaveChanges();
-                }
+					var createdUser = await userManager.CreateAsync(user, "mor3c0mpl3xp4$$w0rd");
+					context.SaveChanges();
+				}
 
-                if (!context.Tweeters.Any())
-                {
-                    var twApi = (ITwitterAPIService)serviceScope.ServiceProvider.GetService(typeof(ITwitterAPIService));
-                    var tweets = await twApi.GetTweets("realDonaldTrump");
-                    var twSer = (ITweetService)serviceScope.ServiceProvider.GetService(typeof(ITweetService));
-                    var userTweetService = (IUserTweetService)serviceScope.ServiceProvider.GetService(typeof(IUserTweetService));
-                    var firstUserId = context.Users.First().Id;
-                    foreach (var tweet in tweets)
-                    {
-                        await twSer.Add(tweet);
-                        await userTweetService.AddTweetToUserFavouriteCollection(firstUserId, tweet);
-                    }
-                    context.SaveChanges();
-                }
-            }
-        }
-    }
+				if (!context.Tweeters.Any())
+				{
+					var twApi = (ITwitterAPIService)serviceScope.ServiceProvider.GetService(typeof(ITwitterAPIService));
+					var tweets = await twApi.GetTweets("realDonaldTrump");
+					var twSer = (ITweetService)serviceScope.ServiceProvider.GetService(typeof(ITweetService));
+					var userTweetService = (IUserTweetService)serviceScope.ServiceProvider.GetService(typeof(IUserTweetService));
+					var firstUserId = context.Users.First().Id;
+					foreach (var tweet in tweets)
+					{
+						await twSer.Add(tweet);
+						await userTweetService.AddTweetToUserFavouriteCollection(firstUserId, tweet);
+					}
+					context.SaveChanges();
+				}
+			}
+		}
+	}
 }
