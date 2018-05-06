@@ -26,7 +26,7 @@ namespace ReTwitter.Services.Data.Statistics
 			
 		}
 
-		public ICollection<UserStatisticsDTO> UsersStatistics()
+		public StatisticsDTO UsersStatistics()
 		{
 			var allUsers = this.userRepository.All().Select(user => new 
 			{
@@ -71,8 +71,13 @@ namespace ReTwitter.Services.Data.Statistics
 				overallStatisticsDTO.TotalStoredTweetsCount += dto.Value.StoredTweetsCount;
 			}
 
-			StatisticsDTO statisticsDTO = new StatisticsDTO() { };
-			
+			StatisticsDTO statisticsDTO = new StatisticsDTO()
+			{
+				UserStatisticsDTOs = userStatisticsDTOs.Values,
+				OverallStatisticsDTO = overallStatisticsDTO
+			};
+
+			return statisticsDTO;
 		}
 	}
 }

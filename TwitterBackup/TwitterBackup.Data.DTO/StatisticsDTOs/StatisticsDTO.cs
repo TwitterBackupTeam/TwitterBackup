@@ -4,6 +4,8 @@ namespace TwitterBackup.Data.DTO.StatisticsDTOs
 {
 	public class StatisticsDTO
     {
-		ICollection<UserStatisticsDTO> UserStatisticsDTOs;
+		public ICollection<UserStatisticsDTO> UserStatisticsDTOs;
+
+		public OverallStatisticsDTO OverallStatisticsDTO { get; set; }
 	}
 }
