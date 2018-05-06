@@ -13,11 +13,15 @@
         </tr>
     </thead>
     <tbody>
-        <ul>
-            @foreach (var item in Model)
+        
+        @foreach (var item in Model)
+        {
+            await Html.RenderPartialAsync("Tweeter", item);
+
+            foreach (var tweetViewModel in item.Tweets)
             {
-                <li>@item.Name</li>
+                await Html.RenderPartialAsync("Tweet", tweetViewModel);
             }
-        </ul>
+        }
     </tbody>
 </table>

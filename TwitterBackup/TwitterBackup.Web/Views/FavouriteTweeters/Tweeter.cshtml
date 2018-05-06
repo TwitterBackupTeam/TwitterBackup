@@ -1,0 +1,46 @@
+﻿@model TwitterBackup.Web.Models.FavouriteTweetersViewModels.FavouriteTweeterViewModel
+
+<div class="twPc-div">
+    <a class="twPc-bg twPc-block"></a>
+    <div>
+        <a title="@(Model.Name)" href="https://twitter.com/@(Model.ScreenName)" class="twPc-avatarLink">
+            <img alt="@(Model.Name)" src="@(Model.ProfileImageUrl)" class="twPc-avatarImg">
+        </a>
+        <div class="twPc-divUser">
+            <div class="twPc-divName">
+                <a href="https://twitter.com/@(Model.ScreenName)">@Model.Name</a>
+            </div>
+            <span>
+                <a href="https://twitter.com/@(Model.ScreenName)">@@<span>@Model.ScreenName</span></a>
+            </span>
+        </div>
+        <div id="twPc-biography">
+            <p>
+                @Model.Description
+            </p>
+        </div>
+        <div class="twPc-divStats">
+            <ul class="twPc-Arrange">
+                <li class="twPc-ArrangeSizeFit">
+                    <a href="https://twitter.com/@(Model.ScreenName)">
+                        <span class="twPc-StatLabel twPc-block">Tweets</span>
+                        <span class="twPc-StatValue">@Model.StatusesCount</span>
+                    </a>
+                </li>
+                <li class="twPc-ArrangeSizeFit">
+                    <a  href="https://twitter.com/@(Model.ScreenName)/following">
+                        <span class="twPc-StatLabel twPc-block">Following</span>
+                        <span class="twPc-StatValue">885</span>
+                    </a>
+                </li>
+                <li class="twPc-ArrangeSizeFit">
+                    <a href="https://twitter.com/@(Model.ScreenName)/followers">
+                        <span class="twPc-StatLabel twPc-block">Followers</span>
+                        <span class="twPc-StatValue">@Model.FollowersCount</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
