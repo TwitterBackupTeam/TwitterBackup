@@ -24,5 +24,7 @@ namespace TwitterBackup.Data.Context
 
         public DbSet<Tweet> Tweets { get; set; }
         public DbSet<Tweeter> Tweeters { get; set; }
-    }
+		public DbSet<UserTweeter> UserTweeters { get; set; }
+		public DbSet<UserTweet> UserTweets { get; set; }
+	}
 }

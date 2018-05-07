@@ -12,7 +12,7 @@ using TwitterBackup.Data.Services.ServiceInterfaces;
 namespace TwitterBackup.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	[Authorize(Roles = "Administrators")]
+	[Authorize(Roles = "Administrator")]
 	public class UsersController : Controller
     {
 		private readonly UserManager<User> userManager;
@@ -21,18 +21,18 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 
 		public UsersController(UserManager<User> userManager,
 					RoleManager<IdentityRole> roleManager,
-					IAdminUserService userService,
-					ICascadeDeleteService cascadeDeleteService)
+					IAdminUserService userService/*,
+					ICascadeDeleteService cascadeDeleteService*/)
 		{
 			this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
 			this.roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
 			this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-			this.cascadeDeleteService = cascadeDeleteService ?? throw new ArgumentNullException(nameof(cascadeDeleteService));
+			//this.cascadeDeleteService = cascadeDeleteService ?? throw new ArgumentNullException(nameof(cascadeDeleteService));
 		}
 
 		public async Task<IActionResult> Index()
 		{
-
+			return View();
 		}
 
 		public async Task<IActionResult> DeleteUser(string id)
@@ -53,7 +53,7 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 				return this.Json(false);
 			}
 
-			this.cascadeDeleteService.DeleteUserAndHisEntities(userToDelete.Id);
+			//this.cascadeDeleteService.DeleteUserAndHisEntities(userToDelete.Id);
 
 			return this.Json(true);
 		}
