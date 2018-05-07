@@ -72,7 +72,7 @@ namespace TwitterBackup.Web
 			services.AddTransient<IStoredTweetsStatisticsService, StoredTweetsStatisticsService>();
 			services.AddTransient<IFavouriteTweetersStatisticsService, FavouriteTweetersStatisticsService>();
 			services.AddTransient<ITweeterService, TweeterService>();
-			
+			services.AddTransient<IUserTweeterService, UserTweeterService>();
 
 			services.AddMvc();
 		}
