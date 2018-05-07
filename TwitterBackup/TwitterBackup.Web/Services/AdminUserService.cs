@@ -15,12 +15,12 @@ namespace TwitterBackup.Web.Services
 {
 	public class AdminUserService : DatabaseService, IAdminUserService
 	{
-		private readonly IWorkSaver workSaver;
+		private readonly IUnitOfWork workSaver;
 		private readonly UserManager<User> userManager;
 		private readonly IRepository<User> userRepository;
 
 		public AdminUserService(UserManager<User> userManager, IRepository<User> userRepository, 
-								IAutoMapper autoMapper, IWorkSaver workSaver) : base(autoMapper, workSaver)
+								IAutoMapper autoMapper, IUnitOfWork workSaver) : base(autoMapper, workSaver)
 		{
 			this.workSaver = workSaver ?? throw new ArgumentNullException(nameof(workSaver));
 			this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));

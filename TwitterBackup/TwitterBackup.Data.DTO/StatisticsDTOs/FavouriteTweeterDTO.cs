@@ -5,7 +5,7 @@ namespace TwitterBackup.Data.DTO.StatisticsDTOs
 	public class FavouriteTweeterDTO
     {
 		[JsonProperty("id")]
-		public string Id { get; set; }
+		public long Id { get; set; }
 
 		[JsonProperty("screen_name")]
 		public string ScreenName { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using TwitterBackup.Data.Models.Abstract;
 
@@ -6,6 +7,12 @@ namespace TwitterBackup.Data.Models
 {
     public class Tweeter : IDeletable
     {
+		public Tweeter()
+		{
+			this.UserTweeters = new HashSet<UserTweeter>();
+			this.Tweets = new HashSet<Tweet>();
+		}
+
         [Key]
         public long Id { get; set; }
 
@@ -27,5 +34,9 @@ namespace TwitterBackup.Data.Models
 
 		[DataType(DataType.DateTime)]
 		public DateTime? DeletedOn { get; set; }
+
+		public ICollection<UserTweeter> UserTweeters { get; set; }
+
+		public ICollection<Tweet> Tweets { get; set; }
 	}
 }

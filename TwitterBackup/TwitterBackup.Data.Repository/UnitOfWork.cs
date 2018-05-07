@@ -6,15 +6,93 @@ using TwitterBackup.Data.Models;
 
 namespace TwitterBackup.Data.Repository
 {
-	public class WorkSaver : IWorkSaver
+	public class UnitOfWork : IUnitOfWork
     {
         private readonly TwitterBackupDbContext dbContext;
-
-		public WorkSaver(TwitterBackupDbContext dbContext, IRepository<User> userRepository)
+		private IRepository<User> userRepository;
+		private IRepository<UserTweeter> userTweeterRepository;
+		private IRepository<UserTweet> userTweetRepository;
+		private IRepository<Tweet> tweetRepository;
+		private IRepository<Tweeter> tweeterRepository;
+		public UnitOfWork(TwitterBackupDbContext dbContext, 
+						  IRepository<User> userRepository, 
+						  IRepository<UserTweeter> userTweeterRepository, 
+						  IRepository<UserTweet> userTweetRepository, 
+						  IRepository<Tweet> tweetRepository, 
+						  IRepository<Tweeter> tweeterRepository)
 		{
 			this.dbContext = dbContext ?? throw new ArgumentNullException("DbContext should not be null");
+			this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userTweeterRepository));
+			this.userTweeterRepository = userTweeterRepository ?? throw new ArgumentNullException(nameof(userTweeterRepository));
+			this.userTweetRepository = userTweetRepository ?? throw new ArgumentNullException(nameof(userTweetRepository));
+			this.tweetRepository = tweetRepository ?? throw new ArgumentNullException(nameof(tweetRepository));
+			this.tweeterRepository = tweeterRepository ?? throw new ArgumentNullException(nameof(tweeterRepository));
 		}
-		
+		public IRepository<User> UsersRepository
+		{
+			get
+			{
+				if (this.userRepository == null)
+				{
+					this.userRepository = new EfRepository<User>(dbContext);
+				}
+
+				return this.userRepository;
+			}
+		}
+
+		public IRepository<UserTweeter> UsersTweeterRepository
+		{
+			get
+			{
+				if (this.userTweeterRepository == null)
+				{
+					this.userTweeterRepository = new EfRepository<UserTweeter>(dbContext);
+				}
+
+				return this.userTweeterRepository;
+			}
+		}
+
+		public IRepository<UserTweet> UsersTweetRepository
+		{
+			get
+			{
+				if (this.userTweetRepository == null)
+				{
+					this.userTweetRepository = new EfRepository<UserTweet>(dbContext);
+				}
+
+				return this.userTweetRepository;
+			}
+		}
+
+		public IRepository<Tweet> TweetRepository
+		{
+			get
+			{
+				if (this.tweetRepository == null)
+				{
+					this.tweetRepository = new EfRepository<Tweet>(dbContext);
+				}
+
+				return this.tweetRepository;
+			}
+		}
+
+		public IRepository<Tweeter> TweeterRepository
+		{
+			get
+			{
+				if (this.tweeterRepository == null)
+				{
+					this.tweeterRepository = new EfRepository<Tweeter>(dbContext);
+				}
+
+				return this.tweeterRepository;
+			}
+		}
+
 		public bool SaveChanges()
 		{
 			int result;

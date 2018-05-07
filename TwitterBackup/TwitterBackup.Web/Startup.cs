@@ -65,7 +65,7 @@ namespace TwitterBackup.Web
 			services.AddTransient<ITweetService, TweetService>();
 			services.AddTransient<IUserTweetService, UserTweetService>();
 			services.AddTransient<IAutoMapper, AutoMapperWrapper>();
-			services.AddTransient<IWorkSaver, WorkSaver>();
+			services.AddTransient<IUnitOfWork, UnitOfWork>();
 			services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
 			services.AddTransient<IAdminUserService, AdminUserService>();
 			services.AddTransient<IStatisticsService, StatisticsService>();

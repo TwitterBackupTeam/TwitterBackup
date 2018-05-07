@@ -11,10 +11,13 @@ namespace TwitterBackup.Data.Models
         public User()
         {
             this.UserTweets = new HashSet<UserTweet>();
-        }
+			this.UserTweeters = new HashSet<UserTweeter>();
+		}
 
-        public ICollection<UserTweet> UserTweets { get; set; }
-		
+        public ICollection<UserTweeter> UserTweeters { get; set; }
+
+		public ICollection<UserTweet> UserTweets { get; set; }
+
 		public string TwitterName { get; set; }
 
 		public string FirstName { get; set; }

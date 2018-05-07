@@ -11,7 +11,7 @@ namespace TwitterBackup.Data.Models
 		public User User { get; set; }
 
 		[Required]
-		public string TweeterId { get; set; }
+		public long TweeterId { get; set; }
 		public Tweeter Tweeter { get; set; }
 
 		public bool IsDeleted { get; set; }

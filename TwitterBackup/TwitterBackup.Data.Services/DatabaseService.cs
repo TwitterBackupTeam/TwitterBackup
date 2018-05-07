@@ -6,9 +6,9 @@ namespace TwitterBackup.Data.Services
     public abstract class DatabaseService
     {
         protected IAutoMapper AutoMapper { get; set; }
-        protected IWorkSaver WorkSaver { get; set; }
+        protected IUnitOfWork WorkSaver { get; set; }
 
-        protected DatabaseService(IAutoMapper autoMapper, IWorkSaver workSaver)
+        protected DatabaseService(IAutoMapper autoMapper, IUnitOfWork workSaver)
         {
             AutoMapper = autoMapper;
             WorkSaver = workSaver;

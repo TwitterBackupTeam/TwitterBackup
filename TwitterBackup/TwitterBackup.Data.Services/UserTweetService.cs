@@ -15,7 +15,7 @@ namespace TwitterBackup.Data.Services
         private readonly IRepository<UserTweet> userTweetRepository;
         private readonly ITweetService tweetService;
 
-        public UserTweetService(IRepository<UserTweet> userTweetRepo, ITweetService tweetService, IAutoMapper autoMapper, IWorkSaver workSaver) : base(autoMapper, workSaver)
+        public UserTweetService(IRepository<UserTweet> userTweetRepo, ITweetService tweetService, IAutoMapper autoMapper, IUnitOfWork workSaver) : base(autoMapper, workSaver)
         {
             this.userTweetRepository = userTweetRepo;
             this.tweetService = tweetService;

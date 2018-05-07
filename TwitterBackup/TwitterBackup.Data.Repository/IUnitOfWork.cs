@@ -3,7 +3,7 @@ using TwitterBackup.Data.Models;
 
 namespace TwitterBackup.Data.Repository
 {
-    public interface IWorkSaver
+    public interface IUnitOfWork
     {
 		bool SaveChanges();
 

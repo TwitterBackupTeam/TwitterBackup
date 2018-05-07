@@ -18,7 +18,7 @@ namespace ReTwitter.Services.Data.Statistics
 		
 		public StatisticsService(IRepository<User> userRepository, IRepository<UserTweeter> userTweeterRepository,
 								 IRepository<UserTweet> userTweetRepository,
-								 IAutoMapper autoMapper, IWorkSaver workSaver) : base(autoMapper, workSaver)
+								 IAutoMapper autoMapper, IUnitOfWork workSaver) : base(autoMapper, workSaver)
 		{
 			this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
 			this.userTweeterRepository = userTweeterRepository ?? throw new ArgumentNullException(nameof(userTweeterRepository));

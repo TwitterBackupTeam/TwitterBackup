@@ -15,7 +15,7 @@ namespace TwitterBackup.Data.Services
     {
         private readonly IRepository<Tweet> tweetRepository;
 
-        public TweetService(IRepository<Tweet> tweetRepository, IAutoMapper autoMapper, IWorkSaver workSaver) : base(autoMapper, workSaver)
+        public TweetService(IRepository<Tweet> tweetRepository, IAutoMapper autoMapper, IUnitOfWork workSaver) : base(autoMapper, workSaver)
         {
             this.tweetRepository = tweetRepository;
         }
