@@ -10,11 +10,11 @@ namespace ReTwitter.Services.Data.Statistics
 {
 	public class FavouriteTweetersStatisticsService : IFavouriteTweetersStatisticsService
 	{
-		private readonly IRepository<UserTweeter> userTweeterRepository;
+		private readonly IUnitOfWork unitOfWork;
 
-		public FavouriteTweetersStatisticsService(IRepository<UserTweeter> userTweeterRepository)											
+		public FavouriteTweetersStatisticsService(IUnitOfWork unitOfWork)
 		{
-			this.userTweeterRepository = userTweeterRepository ?? throw new ArgumentNullException(nameof(userTweeterRepository));
+			this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 		}
 
 		public ICollection<FavouriteTweeterDTO> GetFavouriteTweetersByUserId(string userId)
@@ -24,7 +24,7 @@ namespace ReTwitter.Services.Data.Statistics
 				throw new ArgumentException("UserId cannot be null");
 			}
 
-			var favouriteTweeters = this.userTweeterRepository.All().Where(u => u.UserId == userId).Select(s =>
+			var favouriteTweeters = this.unitOfWork.UsersTweeterRepository.All().Where(u => u.UserId == userId).Select(s =>
 				new FavouriteTweeterDTO
 				{
 					Id = s.TweeterId,
