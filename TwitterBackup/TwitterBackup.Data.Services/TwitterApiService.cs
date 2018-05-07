@@ -46,8 +46,17 @@ namespace TwitterBackup.Data.Services
 
 			var searchString = "https://api.twitter.com/1.1/users/search.json?q=";
 			var foundTweetersString = await this.twitterApiClient.GetTwitterJsonData(searchString + screenName.Trim());
-			var deserializedUsers = this.jsonDeserializer.Deserialize<TweeterDTO[]>(foundTweetersString);
-			return deserializedUsers;
+			var deserializedTweeter = this.jsonDeserializer.Deserialize<TweeterDTO[]>(foundTweetersString);
+			return deserializedTweeter;
+		}
+
+		public async Task<TweeterDTO> GetTweeterInfoById(long id)
+		{
+
+			var searchString = "https://api.twitter.com/1.1/users/show.json?user_id=";
+			var foundTweetersString = await this.twitterApiClient.GetTwitterJsonData(searchString + id.ToString());
+			var deserializedTweeter = this.jsonDeserializer.Deserialize<TweeterDTO>(foundTweetersString);
+			return deserializedTweeter;
 		}
 	}
 }

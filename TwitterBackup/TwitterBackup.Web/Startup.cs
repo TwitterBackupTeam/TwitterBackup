@@ -71,6 +71,8 @@ namespace TwitterBackup.Web
 			services.AddTransient<IStatisticsService, StatisticsService>();
 			services.AddTransient<IStoredTweetsStatisticsService, StoredTweetsStatisticsService>();
 			services.AddTransient<IFavouriteTweetersStatisticsService, FavouriteTweetersStatisticsService>();
+			services.AddTransient<ITweeterService, TweeterService>();
+			
 
 			services.AddMvc();
 		}
@@ -93,7 +95,7 @@ namespace TwitterBackup.Web
 
 			app.UseAuthentication();
 
-			Seed(app.ApplicationServices);
+			Seed(app.ApplicationServices).Wait();
 			
 			app.UseMvc(routes =>
 			{
@@ -108,7 +110,7 @@ namespace TwitterBackup.Web
 			});
 		}
 
-		private void Seed(IServiceProvider serviceProvider)
+		private async Task Seed(IServiceProvider serviceProvider)
 		{ 
 			using (var serviceScope = serviceProvider.CreateScope())
 			{
@@ -127,10 +129,8 @@ namespace TwitterBackup.Web
 
 						if (!roleExists)
 						{
-							var identityRole = new IdentityRole()
-							{
-								Name = adminUserName
-							};
+							var identityRole = new IdentityRole(adminUserName);
+
 							await roleManager.CreateAsync(identityRole);
 						}
 
@@ -153,24 +153,22 @@ namespace TwitterBackup.Web
 						}
 					})
 					.Wait();
-
-					context.SaveChanges();
 				}
 
-				//if (!context.Tweeters.Any())
-				//{
-				//	var twApi = (ITwitterAPIService)serviceScope.ServiceProvider.GetService(typeof(ITwitterAPIService));
-				//	var tweets = await twApi.GetTweets("realDonaldTrump");
-				//	var twSer = (ITweetService)serviceScope.ServiceProvider.GetService(typeof(ITweetService));
-				//	var userTweetService = (IUserTweetService)serviceScope.ServiceProvider.GetService(typeof(IUserTweetService));
-				//	var firstUserId = context.Users.First().Id;
-				//	foreach (var tweet in tweets)
-				//	{
-				//		await twSer.Add(tweet);
-				//		await userTweetService.AddTweetToUserFavouriteCollection(firstUserId, tweet);
-				//	}
-				//	context.SaveChanges();
-				//}
+				if (!context.Tweeters.Any())
+				{
+					var twApi = (ITwitterAPIService)serviceScope.ServiceProvider.GetService(typeof(ITwitterAPIService));
+					var tweets = await twApi.GetTweets("realDonaldTrump");
+					var twSer = (ITweetService)serviceScope.ServiceProvider.GetService(typeof(ITweetService));
+					var userTweetService = (IUserTweetService)serviceScope.ServiceProvider.GetService(typeof(IUserTweetService));
+					var firstUserId = context.Users.First().Id;
+					foreach (var tweet in tweets)
+					{
+						await twSer.Add(tweet);
+						await userTweetService.AddTweetToUserFavouriteCollection(firstUserId, tweet);
+					}
+				}
+				context.SaveChanges();
 			}
 		}
 	}
