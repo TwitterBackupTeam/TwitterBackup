@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +34,18 @@ namespace TwitterBackup.Data.Services
             return await this.WorkSaver.SaveChangesAsync();
         }
 
+        public async Task<bool> AddTweetToUserFavouriteCollection(string userId, long tweetId)
+        {
+            if (this.tweetService.GetTweetById(tweetId) == null)
+            {
+                throw new ArgumentException("This tweet does not exist!");
+            }
+
+            this.userTweetRepository.Add(new UserTweet() { UserId = userId, TweetId = tweetId });
+
+            return await this.WorkSaver.SaveChangesAsync();
+        }
+
         public async Task<ICollection<TweetDTO>> GetAllFavouriteTweetsFromUserId(string id)
         {
             var collection = new List<TweetDTO>();
@@ -48,6 +61,19 @@ namespace TwitterBackup.Data.Services
         public async Task<bool> CheckIfTweetExistsInUserFavouriteCollection(long tweetId, string userId)
         {
             return await this.userTweetRepository.All().AnyAsync(ut => ut.UserId == userId && ut.TweetId == tweetId);
+        }
+
+        public async Task<bool> DeleteTweetFromUserFavouriteCollection(long tweetId, string userId)
+        {
+            var userTweet = await this.userTweetRepository.All()
+                .FirstOrDefaultAsync(ut => ut.UserId == userId && ut.TweetId == tweetId);
+
+            if (userTweet != null)
+            {
+                this.userTweetRepository.Delete(userTweet);
+            }
+
+            return await this.WorkSaver.SaveChangesAsync();
         }
     }
 }
