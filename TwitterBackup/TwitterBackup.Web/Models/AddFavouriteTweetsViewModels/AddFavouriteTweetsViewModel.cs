@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TwitterBackup.Web.Models.FavouriteTweetersViewModels;
 
 namespace TwitterBackup.Web.Models.AddFavouriteTweetsViewModels
 {
@@ -10,8 +9,8 @@ namespace TwitterBackup.Web.Models.AddFavouriteTweetsViewModels
             this.Tweets = new List<AddTweetViewModel>();
         }
 
-        public TweeterViewModel TweeterViewModel { get; set; }
+        public AddTweeterViewModel TweeterViewModel { get; set; }
 
-        public ICollection<AddTweetViewModel> Tweets { get; set; }
+        public IList<AddTweetViewModel> Tweets { get; set; }
     }
 }
