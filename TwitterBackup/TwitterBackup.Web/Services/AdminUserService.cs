@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TwitterBackup.Data.DTO;
 using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Repository;
 using TwitterBackup.Data.Services;
@@ -22,6 +24,7 @@ namespace TwitterBackup.Web.Services
 		{
 			this.workSaver = workSaver ?? throw new ArgumentNullException(nameof(workSaver));
 			this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+			this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
 		}
 
 		public async Task<User> GetUserByUsernameAsync(string userName)
@@ -50,6 +53,6 @@ namespace TwitterBackup.Web.Services
 		}
 
 		//public async Task<ICollection<UserDTO>> GetUsersInRolesAsync()
-		//=> await this.workSaver.UserRepository.All().AsQueryable().ProjectTo<UserDTO>.ToListAsyns();
+		//=> await this.userRepository.All().MapTo<UserDTO>.ToListAsyns();
 	}
 }
