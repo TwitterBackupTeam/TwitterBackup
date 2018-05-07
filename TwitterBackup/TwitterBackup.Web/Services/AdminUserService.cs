@@ -15,14 +15,14 @@ namespace TwitterBackup.Web.Services
 {
 	public class AdminUserService : DatabaseService, IAdminUserService
 	{
-		private readonly IUnitOfWork workSaver;
+		private readonly IUnitOfWork unitOfWork;
 		private readonly UserManager<User> userManager;
 		private readonly IRepository<User> userRepository;
 
 		public AdminUserService(UserManager<User> userManager, IRepository<User> userRepository, 
-								IAutoMapper autoMapper, IUnitOfWork workSaver) : base(autoMapper, workSaver)
+								IAutoMapper autoMapper, IUnitOfWork unitOfWork) : base(autoMapper, unitOfWork)
 		{
-			this.workSaver = workSaver ?? throw new ArgumentNullException(nameof(workSaver));
+			this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 			this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 			this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
 		}
@@ -49,7 +49,7 @@ namespace TwitterBackup.Web.Services
 			}
 
 			this.userRepository.Delete(user);
-			this.workSaver.SaveChanges();
+			this.unitOfWork.SaveChanges();
 		}
 
 		//public async Task<ICollection<UserDTO>> GetUsersInRolesAsync()

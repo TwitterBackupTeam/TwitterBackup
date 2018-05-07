@@ -15,7 +15,7 @@ namespace TwitterBackup.Data.Services
         private readonly IRepository<UserTweet> userTweetRepository;
         private readonly ITweetService tweetService;
 
-        public UserTweetService(IRepository<UserTweet> userTweetRepo, ITweetService tweetService, IAutoMapper autoMapper, IUnitOfWork workSaver) : base(autoMapper, workSaver)
+        public UserTweetService(IRepository<UserTweet> userTweetRepo, ITweetService tweetService, IAutoMapper autoMapper, IUnitOfWork unitOfWork) : base(autoMapper, unitOfWork)
         {
             this.userTweetRepository = userTweetRepo;
             this.tweetService = tweetService;
@@ -30,7 +30,7 @@ namespace TwitterBackup.Data.Services
 
             this.userTweetRepository.Add(new UserTweet(){ UserId = userId, TweetId = tweetDto.Id});
 
-            return await this.WorkSaver.SaveChangesAsync();
+            return await this.UnitOfWork.SaveChangesAsync();
         }
 
         public async Task<ICollection<TweetDTO>> GetAllFavouriteTweetsFromUserId(string id)

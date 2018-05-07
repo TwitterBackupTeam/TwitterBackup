@@ -15,7 +15,7 @@ namespace TwitterBackup.Data.Services
     {
         private readonly IRepository<Tweet> tweetRepository;
 
-        public TweetService(IRepository<Tweet> tweetRepository, IAutoMapper autoMapper, IUnitOfWork workSaver) : base(autoMapper, workSaver)
+        public TweetService(IRepository<Tweet> tweetRepository, IAutoMapper autoMapper, IUnitOfWork unitOfWork) : base(autoMapper, unitOfWork)
         {
             this.tweetRepository = tweetRepository;
         }
@@ -38,7 +38,7 @@ namespace TwitterBackup.Data.Services
             tweet.CreatedAt = DateTime.ParseExact(dto.CreatedAtStr, "ddd MMM dd HH:mm:ss K yyyy",
                 CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
             this.tweetRepository.Add(tweet);
-            var res = await this.WorkSaver.SaveChangesAsync();
+            var res = await this.UnitOfWork.SaveChangesAsync();
 
             return res;
         }
@@ -46,7 +46,7 @@ namespace TwitterBackup.Data.Services
         public async Task<bool> Delete(long id)
         {
             this.tweetRepository.Delete(this.tweetRepository.GetById(id));
-            var res = await this.WorkSaver.SaveChangesAsync();
+            var res = await this.UnitOfWork.SaveChangesAsync();
 
             return res;
         }
