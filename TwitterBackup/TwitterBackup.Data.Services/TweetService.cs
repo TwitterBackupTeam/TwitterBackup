@@ -14,10 +14,12 @@ namespace TwitterBackup.Data.Services
     public class TweetService : DatabaseService, ITweetService
     {
         private readonly IRepository<Tweet> tweetRepository;
+        private readonly IRepository<Tweeter> tweeterRepository;
 
-        public TweetService(IRepository<Tweet> tweetRepository, IAutoMapper autoMapper, IWorkSaver workSaver) : base(autoMapper, workSaver)
+        public TweetService(IAutoMapper autoMapper, IWorkSaver workSaver, IRepository<Tweet> tweetRepository, IRepository<Tweeter> tweeterRepository) : base(autoMapper, workSaver)
         {
             this.tweetRepository = tweetRepository;
+            this.tweeterRepository = tweeterRepository;
         }
 
         public TweetDTO GetTweetById(long id)
@@ -37,6 +39,12 @@ namespace TwitterBackup.Data.Services
             var tweet = this.AutoMapper.MapTo<Tweet>(dto);
             tweet.CreatedAt = DateTime.ParseExact(dto.CreatedAtStr, "ddd MMM dd HH:mm:ss K yyyy",
                 CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+
+            if (this.tweeterRepository.All().FirstOrDefault(t => t.Id == tweet.Author.Id) != null)
+            {
+                tweet.Author = this.tweeterRepository.All().FirstOrDefault(t => t.Id == tweet.Author.Id);
+            }
+
             this.tweetRepository.Add(tweet);
             var res = await this.WorkSaver.SaveChangesAsync();
 
