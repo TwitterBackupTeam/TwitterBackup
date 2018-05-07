@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TwitterBackup.Data.DTO;
 using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Repository;
-using TwitterBackup.Data.Services;
 using TwitterBackup.Data.Services.ServiceInterfaces;
-using TwitterBackup.Data.Services.Utils;
 
 namespace TwitterBackup.Web.Services
 {

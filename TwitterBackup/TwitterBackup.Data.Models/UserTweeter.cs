@@ -15,6 +15,8 @@ namespace TwitterBackup.Data.Models
 		public Tweeter Tweeter { get; set; }
 
 		public bool IsDeleted { get; set; }
+
+		[DataType(DataType.DateTime)]
 		public DateTime? DeletedOn { get; set; }
 	}
 }
