@@ -11,9 +11,10 @@ using TwitterBackup.Data.Context;
 namespace TwitterBackup.Data.Context.Migrations
 {
     [DbContext(typeof(TwitterBackupDbContext))]
-    partial class TwitterBackupDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180506123412_AddedFollowingCount")]
+    partial class AddedFollowingCount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

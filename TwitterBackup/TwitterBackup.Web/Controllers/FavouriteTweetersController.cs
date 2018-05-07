@@ -28,18 +28,19 @@ namespace TwitterBackup.Web.Controllers
         // GET: /<controller>/
         public async Task<IActionResult> FavouriteTweeters()
         {
-            var tweets = new List<FavouriteTweeterViewModel>();
+            var favTweetVm = new FavouriteTweetersViewModel();
+            var tweets = new List<TweeterViewModel>();
             var userId = this.userManager.GetUserId(this.User);
             var collection = await this.userTweetService.GetAllFavouriteTweetsFromUserId(userId);
             var tweeters = collection.GroupBy(t => t.Author.Id);
             foreach (var tweeter in tweeters)
             {
-                FavouriteTweeterViewModel favTweeterVM = null;
+                TweeterViewModel favTweeterVM = null;
                 foreach (var tweetDto in tweeter)
                 {
                     if (favTweeterVM is null)
                     {
-                        favTweeterVM = this.autoMapper.MapTo<FavouriteTweeterViewModel>(tweetDto.Author);
+                        favTweeterVM = this.autoMapper.MapTo<TweeterViewModel>(tweetDto.Author);
                     }
 
                     favTweeterVM.Tweets.Add(this.autoMapper.MapTo<TweetViewModel>(tweetDto));
@@ -48,8 +49,8 @@ namespace TwitterBackup.Web.Controllers
                 tweets.Add(favTweeterVM);
             }
 
-
-            return View(tweets);
+            favTweetVm.TweeterViewModels = tweets;
+            return View(favTweetVm);
         }
     }
 }

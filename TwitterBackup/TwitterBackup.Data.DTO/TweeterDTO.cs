@@ -25,6 +25,9 @@ namespace TwitterBackup.Data.DTO
         [JsonProperty("followers_count")]
         public int FollowersCount { get; set; }
 
+        [JsonProperty("friends_count")]
+        public int FollowingCount { get; set; }
+
         [JsonProperty("statuses_count")]
         public int StatusesCount { get; set; }
     }

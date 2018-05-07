@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using TwitterBackup.Data.DTO;
 using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Repository;
@@ -43,6 +43,11 @@ namespace TwitterBackup.Data.Services
             }
 
             return collection;
+        }
+
+        public async Task<bool> CheckIfTweetExistsInUserFavouriteCollection(long tweetId, string userId)
+        {
+            return await this.userTweetRepository.All().AnyAsync(ut => ut.UserId == userId && ut.TweetId == tweetId);
         }
     }
 }

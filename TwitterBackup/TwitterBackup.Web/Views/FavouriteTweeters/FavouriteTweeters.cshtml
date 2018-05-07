@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TwitterBackup.Web.Models.FavouriteTweetersViewModels.FavouriteTweeterViewModel>
+﻿@model TwitterBackup.Web.Models.FavouriteTweetersViewModels.FavouriteTweetersViewModel
 
 @{
     ViewData["Title"] = "FavouriteTweeters";
@@ -6,22 +6,58 @@
 
 <h2>FavouriteTweeters</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<div id="searchBar">
+    @*<input name="Search" class="form-control" value="@Model.SearchScreenName" />
+    <button type="button" class="btn btn-info" asp-controller="AddFavouriteTweets" asp-action="AddFavouriteTweets">Search</button>*@
+    <form asp-controller="AddFavouriteTweets" asp-action="AddFavouriteTweets" method="post">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label></label>
+            <textarea name="ScreenName" class="form-control" rows="5"></textarea>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</div>
         
-        @foreach (var item in Model)
-        {
-            await Html.RenderPartialAsync("Tweeter", item);
+@foreach (var item in Model.TweeterViewModels)
+{
+    await Html.RenderPartialAsync("Tweeter", item);
 
-            foreach (var tweetViewModel in item.Tweets)
-            {
-                await Html.RenderPartialAsync("Tweet", tweetViewModel);
-            }
-        }
-    </tbody>
-</table>
+    foreach (var tweetViewModel in item.Tweets)
+    {
+        await Html.RenderPartialAsync("Tweet", tweetViewModel);
+    }
+}
+
+<!-- Modal -->
+<div id="Search" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update details</h4>
+            </div>
+
+            <form asp-controller="Post" asp-action="Update" method="post">
+                <div class="modal-body">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label name="Title" class=""></label>
+                        <input name="Title" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label name="Content"></label>
+                        <textarea name="Content" class="form-control" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="Id">
+                    <button type="submit" class="btn btn-info">Update</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
