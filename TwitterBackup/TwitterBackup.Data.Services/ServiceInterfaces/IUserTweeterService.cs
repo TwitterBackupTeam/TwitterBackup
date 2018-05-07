@@ -8,9 +8,10 @@ namespace TwitterBackup.Data.Services.ServiceInterfaces
 
 		bool UserTweeterIsDeleted(string userId, long tweeterId);
 
-		void SaveUserTweeter(string userId, TweeterDTO tweeter);
+	    bool SaveUserTweeter(string userId, long tweeterId);
+
+        void SaveUserTweeter(string userId, TweeterDTO tweeter);
 
 		void DeleteUserTweeter(string userId, long tweeterId);
-
 	}
 }

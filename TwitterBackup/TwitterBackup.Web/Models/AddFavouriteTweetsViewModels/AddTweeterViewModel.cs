@@ -4,6 +4,8 @@ namespace TwitterBackup.Web.Models.AddFavouriteTweetsViewModels
 {
     public class AddTweeterViewModel
     {
+        public long Id { get; set; }
+
         public string Name { get; set; }
 
         public string ScreenName { get; set; }
