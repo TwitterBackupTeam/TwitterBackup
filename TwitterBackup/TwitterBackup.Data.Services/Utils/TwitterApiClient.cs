@@ -32,10 +32,12 @@ namespace TwitterBackup.Data.Services.Utils
         {
             string resourceUrl = "https://api.twitter.com/1.1/statuses/user_timeline.json";
 
-            var requestParameters = new SortedDictionary<string, string>();
-            requestParameters.Add("screen_name", screenName);
+			var requestParameters = new SortedDictionary<string, string>
+			{
+				{ "screen_name", screenName }
+			};
 
-            var response = await GetResponse(resourceUrl, Method.GET, requestParameters);
+			var response = await GetResponse(resourceUrl, Method.GET, requestParameters);
 
             return response;
         }

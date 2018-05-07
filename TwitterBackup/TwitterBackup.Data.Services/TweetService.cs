@@ -13,23 +13,19 @@ namespace TwitterBackup.Data.Services
 {
     public class TweetService : DatabaseService, ITweetService
     {
-        private readonly IRepository<Tweet> tweetRepository;
-
-        public TweetService(IRepository<Tweet> tweetRepository, IAutoMapper autoMapper, IUnitOfWork unitOfWork) : base(autoMapper, unitOfWork)
-        {
-            this.tweetRepository = tweetRepository;
-        }
+        public TweetService(IAutoMapper autoMapper, IUnitOfWork unitOfWork) : base(autoMapper, unitOfWork)
+        { }
 
         public TweetDTO GetTweetById(long id)
         {
-            var tweet = this.tweetRepository.All().Include(t => t.Author).Where(t => t.Id == id).First();
+            var tweet = this.UnitOfWork.TweetRepository.All().Include(t => t.Author).Where(t => t.Id == id).First();
 
             return this.AutoMapper.MapTo<TweetDTO>(tweet);
         }
 
         public async Task<bool> Add(TweetDTO dto)
         {
-            if (this.tweetRepository.GetById(dto.Id) != null)
+            if (this.UnitOfWork.TweetRepository.GetById(dto.Id) != null)
             {
                 throw new ArgumentException("This tweet is already added.");
             }
@@ -37,7 +33,7 @@ namespace TwitterBackup.Data.Services
             var tweet = this.AutoMapper.MapTo<Tweet>(dto);
             tweet.CreatedAt = DateTime.ParseExact(dto.CreatedAtStr, "ddd MMM dd HH:mm:ss K yyyy",
                 CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
-            this.tweetRepository.Add(tweet);
+            this.UnitOfWork.TweetRepository.Add(tweet);
             var res = await this.UnitOfWork.SaveChangesAsync();
 
             return res;
@@ -45,7 +41,7 @@ namespace TwitterBackup.Data.Services
 
         public async Task<bool> Delete(long id)
         {
-            this.tweetRepository.Delete(this.tweetRepository.GetById(id));
+            this.UnitOfWork.TweetRepository.Delete(this.UnitOfWork.TweetRepository.GetById(id));
             var res = await this.UnitOfWork.SaveChangesAsync();
 
             return res;

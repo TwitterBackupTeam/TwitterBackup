@@ -5,7 +5,7 @@ using TwitterBackup.Data.DTO.StatisticsDTOs;
 using TwitterBackup.Data.Repository;
 using TwitterBackup.Data.Services.ServiceInterfaces.StatisticsServices;
 
-namespace TwitterBackup.Data.Services
+namespace ReTwitter.Services.Data.Statistics
 {
 	public class StoredTweetsStatisticsService : IStoredTweetsStatisticsService
 	{
