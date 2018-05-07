@@ -37,16 +37,16 @@ namespace TwitterBackup.Data.Services
             return result.ToList();
         }
 
-		public async Task<TweeterDTO[]> GetTwitterUsersByScreenName(string name)
+		public async Task<TweeterDTO[]> GetTweetersByScreenName(string screenName)
 		{
-			if (string.IsNullOrWhiteSpace(name))
+			if (string.IsNullOrEmpty(screenName))
 			{
-				throw new ArgumentNullException(nameof(name));
+				throw new ArgumentNullException(nameof(screenName));
 			}
 
 			var searchString = "https://api.twitter.com/1.1/users/search.json?q=";
-			var foundUsersString = await this.twitterApiClient.GetTwitterJsonData(searchString + name.Trim());
-			var deserializedUsers = this.jsonDeserializer.Deserialize<TweeterDTO[]>(foundUsersString);
+			var foundTweetersString = await this.twitterApiClient.GetTwitterJsonData(searchString + screenName.Trim());
+			var deserializedUsers = this.jsonDeserializer.Deserialize<TweeterDTO[]>(foundTweetersString);
 			return deserializedUsers;
 		}
 	}

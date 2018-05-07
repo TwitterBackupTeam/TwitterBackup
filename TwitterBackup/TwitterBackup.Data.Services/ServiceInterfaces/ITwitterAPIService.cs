@@ -7,5 +7,8 @@ namespace TwitterBackup.Data.Services.ServiceInterfaces
     public interface ITwitterAPIService
     {
         Task<ICollection<TweetDTO>> GetTweets(string screenName);
-    }
+
+		Task<TweeterDTO[]> GetTweetersByScreenName(string screenName);
+
+	}
 }

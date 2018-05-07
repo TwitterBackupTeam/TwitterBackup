@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TwitterBackup.Data.DTO;
 using TwitterBackup.Data.DTO.UserManagementDTOs;
+using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Repository;
+using TwitterBackup.Data.Services.ServiceInterfaces;
 using TwitterBackup.Data.Services.Utils;
 
 namespace TwitterBackup.Data.Services
 {
 	public class TweeterService : DatabaseService
 	{
-		private readonly ITwitterAPIClient twitterAPIClient;
+		private readonly ITwitterAPIService twitterAPIService;
 
-		public TweeterService(ITwitterAPIClient twitterAPIClient, IAutoMapper autoMapper, IUnitOfWork unitOfWork) : base(autoMapper, unitOfWork)
+		public TweeterService(ITwitterAPIService twitterAPIService, IAutoMapper autoMapper, IUnitOfWork unitOfWork) : base(autoMapper, unitOfWork)
 		{
-			this.twitterAPIClient = twitterAPIClient ?? throw new ArgumentNullException(nameof(twitterAPIClient));
+			this.twitterAPIService = twitterAPIService ?? throw new ArgumentNullException(nameof(twitterAPIService));
 		}
 
 
@@ -44,6 +45,40 @@ namespace TwitterBackup.Data.Services
 			return this.AutoMapper.MapTo<TweeterDTO>(tweeter);
 		}
 
-		
+		public bool DbContainsTweeter(long tweeterId)
+		{
+			return this.UnitOfWork.TweeterRepository.All().Any(t => t.Id == tweeterId);
+		}
+
+		public Tweeter CreateTweeter(TweeterDTO tweeter)
+		{
+			if (tweeter == null)
+			{
+				throw new ArgumentNullException("Followee cannot be null!");
+			}
+
+			Tweeter newTweeter = new Tweeter
+			{
+				Id = tweeter.Id,
+				Name = tweeter.Name,
+				ScreenName = tweeter.ScreenName,
+				Location = tweeter.Location,
+				Description = tweeter.Description,
+				ProfileImageUrl = tweeter.ProfileImageUrl,
+				FollowersCount = tweeter.FollowersCount,
+				StatusesCount = tweeter.StatusesCount
+			};
+
+			this.UnitOfWork.TweeterRepository.Add(newTweeter);
+			this.UnitOfWork.SaveChanges();
+			return newTweeter;
+		}
+
+		public void UpdateTweeterById(long tweeterId)
+		{
+			
+		}
+
+
 	}
 }
