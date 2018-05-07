@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TwitterBackup.Data.DTO.StatisticsDTOs;
 using TwitterBackup.Data.Repository;
@@ -8,27 +9,31 @@ using TwitterBackup.Data.Services.Utils;
 
 namespace ReTwitter.Services.Data.Statistics
 {
-	public class StatisticsService : DatabaseService, IStatisticsService
-	{		
-		public StatisticsService(IAutoMapper autoMapper, IUnitOfWork unitOfWork) : base(autoMapper, unitOfWork)
-		{ }
+	public class StatisticsService : IStatisticsService
+	{
+		private readonly IUnitOfWork unitOfWork;
+
+		public StatisticsService(IUnitOfWork unitOfWork)
+		{
+			this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+		}
 
 		public StatisticsDTO UsersStatistics()
 		{
-			var allUsers = this.UnitOfWork.UsersRepository.All().Select(user => new 
+			var allUsers = this.unitOfWork.UsersRepository.All().Select(user => new 
 			{
 				Id = user.Id,
 				UserName = user.UserName,
 				IsDeleted = user.IsDeleted
 			}).ToList();
 
-			var allUsersTweeters = this.UnitOfWork.UsersTweeterRepository.All().Select(userTweeter => new
+			var allUsersTweeters = this.unitOfWork.UsersTweeterRepository.All().Select(userTweeter => new
 			{
 				UserName = userTweeter.User.UserName,
 				IsDeleted = userTweeter.IsDeleted
 			}).ToList();
 
-			var allUserTweets = this.UnitOfWork.UsersTweetRepository.All().Select(userTweet => new
+			var allUserTweets = this.unitOfWork.UsersTweetRepository.All().Select(userTweet => new
 			{
 				UserName = userTweet.User.UserName,
 				IsDeleted = userTweet.IsDeleted
@@ -43,7 +48,7 @@ namespace ReTwitter.Services.Data.Statistics
 				{
 					UserName = user.UserName,
 					Id = user.Id,
-					IsDeleted = user.IsDeleted
+					Status = (user.IsDeleted == true) ? "Deleted" : "Active"
 				};
 			}
 

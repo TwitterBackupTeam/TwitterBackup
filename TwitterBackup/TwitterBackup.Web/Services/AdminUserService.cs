@@ -13,22 +13,19 @@ using TwitterBackup.Data.Services.Utils;
 
 namespace TwitterBackup.Web.Services
 {
-	public class AdminUserService : DatabaseService, IAdminUserService
+	public class AdminUserService : IAdminUserService
 	{
 		private readonly IUnitOfWork unitOfWork;
 		private readonly UserManager<User> userManager;
-		private readonly IRepository<User> userRepository;
 
-		public AdminUserService(UserManager<User> userManager, IRepository<User> userRepository, 
-								IAutoMapper autoMapper, IUnitOfWork unitOfWork) : base(autoMapper, unitOfWork)
+		public AdminUserService(UserManager<User> userManager, IUnitOfWork unitOfWork)
 		{
 			this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 			this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-			this.userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
 		}
 
 		public async Task<User> GetUserByUsernameAsync(string userName)
-		=> await this.userRepository.All().FirstOrDefaultAsync(w => w.UserName == userName);
+		=> await this.unitOfWork.UsersRepository.All().FirstOrDefaultAsync(w => w.UserName == userName);
 
 		public void DeleteUserByUserId(string userId)
 		{
@@ -41,18 +38,15 @@ namespace TwitterBackup.Web.Services
 				throw new ArgumentException("UserID cannot be empty!");
 			}
 
-			var user = this.userRepository.All().FirstOrDefault(fd => fd.Id == userId);
+			var user = this.unitOfWork.UsersRepository.All().FirstOrDefault(fd => fd.Id == userId);
 
 			if (user == null)
 			{
 				throw new ArgumentNullException("No such user found!");
 			}
 
-			this.userRepository.Delete(user);
+			this.unitOfWork.UsersRepository.Delete(user);
 			this.unitOfWork.SaveChanges();
 		}
-
-		//public async Task<ICollection<UserDTO>> GetUsersInRolesAsync()
-		//=> await this.userRepository.All().MapTo<UserDTO>.ToListAsyns();
 	}
 }

@@ -37,7 +37,7 @@
 					@Html.DisplayFor(modelItem => user.UserName)
 				</th>
 				<th>
-					@Html.DisplayFor(modelItem => user.IsDeleted)
+					@Html.DisplayFor(modelItem => user.Status)
 				</th>
 				<th>
 					<a asp-controller="Statistics" asp-action="FavouriteTweeters" asp-route-userId="@user.Id">@Html.DisplayFor(modelItem => user.FavouriteTweetersCount)</a>

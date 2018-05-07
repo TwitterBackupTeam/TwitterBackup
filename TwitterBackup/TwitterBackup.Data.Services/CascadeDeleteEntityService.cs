@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using TwitterBackup.Data.Repository;
 using TwitterBackup.Data.Services.ServiceInterfaces;
 
@@ -24,10 +25,25 @@ namespace TwitterBackup.Data.Services
 
 		public void CascadeDeleteUser(string userId)
 		{
-			
+			if (string.IsNullOrEmpty(userId))
+			{
+				throw new ArgumentNullException(nameof(userId));
+			}
+
+			var pairedTweeters = this.unitOfWork.UsersTweeterRepository.All().Where(w => w.UserId == userId).Select(ut => ut.TweeterId).ToList();
+
+			this.userService.DeleteUserByUserId(userId);
+
+			if (pairedTweeters.Any())
+			{
+				foreach (var tweeterId in pairedTweeters)
+				{
+					this.CascadeDeleteFavouriteTweeter(userId, tweeterId);
+				}
+			}
 		}
 
-		public virtual void CascadeDeleteFavouriteTweeter(string userId, string tweeterId)
+		public virtual void CascadeDeleteFavouriteTweeter(string userId, long tweeterId)
 		{
 
 		}
