@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TwitterBackup.Data.DTO;
 using TwitterBackup.Data.DTO.UserManagementDTOs;
 using TwitterBackup.Data.Repository;
 using TwitterBackup.Data.Services.Utils;
@@ -34,6 +35,13 @@ namespace TwitterBackup.Data.Services
 			}).ToList();
 
 			return favouriteTweeters;
+		}
+
+		public TweeterDTO GetTweeterById(long tweeterId)
+		{
+			var tweeter = this.UnitOfWork.TweeterRepository.All().FirstOrDefault(t => t.Id == tweeterId);
+
+			return this.AutoMapper.MapTo<TweeterDTO>(tweeter);
 		}
 
 		
