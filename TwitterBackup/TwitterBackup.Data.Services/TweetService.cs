@@ -27,7 +27,7 @@ namespace TwitterBackup.Data.Services
         {
             if (this.UnitOfWork.TweetRepository.GetById(dto.Id) != null)
             {
-                throw new ArgumentException("This tweet is already added.");
+                return true;
             }
 
             var tweet = this.AutoMapper.MapTo<Tweet>(dto);

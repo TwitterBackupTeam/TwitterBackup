@@ -6,18 +6,19 @@
 
 <h2>FavouriteTweeters</h2>
 
-<div id="searchBar">
-    @*<input name="Search" class="form-control" value="@Model.SearchScreenName" />
-    <button type="button" class="btn btn-info" asp-controller="AddFavouriteTweets" asp-action="AddFavouriteTweets">Search</button>*@
-    <form asp-controller="AddFavouriteTweets" asp-action="AddFavouriteTweets" method="post">
-        @Html.AntiForgeryToken()
-        <div class="form-group">
-            <label></label>
-            <textarea name="ScreenName" class="form-control" rows="5"></textarea>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
-</div>
+@*<input name="Search" class="form-control" value="@Model.SearchScreenName" />
+<button type="button" class="btn btn-info" asp-controller="AddFavouriteTweets" asp-action="AddFavouriteTweets">Search</button>*@
+    
+<form asp-controller="AddFavouriteTweets" asp-action="AddFavouriteTweets" method="get">
+    @Html.AntiForgeryToken()
+        
+    <div id="searchBar">
+        <input name="ScreenName" class="form-control" rows="1"></input>
+        <button type="submit" class="btn btn-info">Search</button>
+    </div>
+</form>
+
+<br/>
         
 @foreach (var item in Model.TweeterViewModels)
 {

@@ -135,7 +135,6 @@ namespace TwitterBackup.Web
 							await roleManager.CreateAsync(identityRole);
 						}
 
-
 						var adminEmail = "admin@admin.com";
 
 						var adminUser = await userManager.FindByEmailAsync(adminEmail);
