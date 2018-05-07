@@ -93,8 +93,23 @@ namespace TwitterBackup.Web
 
 			app.UseAuthentication();
 
-			//Seed(app.ApplicationServices).Wait();
-			var serviceProvider = app.ApplicationServices;
+			Seed(app.ApplicationServices).Wait();
+			
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "areas",
+					template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+				);
+
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Home}/{action=Index}/{id?}");
+			});
+		}
+
+		private async Task Seed(IServiceProvider serviceProvider)
+		{ 
 			using (var serviceScope = serviceProvider.CreateScope())
 			{
 				var context = (TwitterBackupDbContext)serviceScope.ServiceProvider.GetService(typeof(TwitterBackupDbContext));
@@ -103,11 +118,11 @@ namespace TwitterBackup.Web
 				{
 					var userManager = (UserManager<User>)serviceScope.ServiceProvider.GetService(typeof(UserManager<User>));
 					var roleManager = (RoleManager<IdentityRole>)serviceScope.ServiceProvider.GetService(typeof(RoleManager<IdentityRole>));
-					
+
 					Task.Run(async () =>
 					{
 						var adminUserName = "Administrator";
-						
+
 						var roleExists = await roleManager.RoleExistsAsync(adminUserName);
 
 						if (!roleExists)
@@ -141,54 +156,21 @@ namespace TwitterBackup.Web
 
 					context.SaveChanges();
 				}
-			}
-			app.UseMvc(routes =>
-			{
-				routes.MapRoute(
-					name: "areas",
-					template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-				);
 
-				routes.MapRoute(
-					name: "default",
-					template: "{controller=Home}/{action=Index}/{id?}");
-			});
-		}
-
-		private async Task Seed(IServiceProvider serviceProvider)
-		{
-			using (var serviceScope = serviceProvider.CreateScope())
-			{
-				var context = (TwitterBackupDbContext)serviceScope.ServiceProvider.GetService(typeof(TwitterBackupDbContext));
-
-				if (!context.Users.Any())
-				{
-					var userManager = (UserManager<User>)serviceScope.ServiceProvider.GetService(typeof(UserManager<User>));
-
-					var user = new User
-					{
-						UserName = "k.zhekow@gmail.com",
-						Email = "k.zhekow@gmail.com"
-					};
-
-					var createdUser = await userManager.CreateAsync(user, "mor3c0mpl3xp4$$w0rd");
-					context.SaveChanges();
-				}
-
-				if (!context.Tweeters.Any())
-				{
-					var twApi = (ITwitterAPIService)serviceScope.ServiceProvider.GetService(typeof(ITwitterAPIService));
-					var tweets = await twApi.GetTweets("realDonaldTrump");
-					var twSer = (ITweetService)serviceScope.ServiceProvider.GetService(typeof(ITweetService));
-					var userTweetService = (IUserTweetService)serviceScope.ServiceProvider.GetService(typeof(IUserTweetService));
-					var firstUserId = context.Users.First().Id;
-					foreach (var tweet in tweets)
-					{
-						await twSer.Add(tweet);
-						await userTweetService.AddTweetToUserFavouriteCollection(firstUserId, tweet);
-					}
-					context.SaveChanges();
-				}
+				//if (!context.Tweeters.Any())
+				//{
+				//	var twApi = (ITwitterAPIService)serviceScope.ServiceProvider.GetService(typeof(ITwitterAPIService));
+				//	var tweets = await twApi.GetTweets("realDonaldTrump");
+				//	var twSer = (ITweetService)serviceScope.ServiceProvider.GetService(typeof(ITweetService));
+				//	var userTweetService = (IUserTweetService)serviceScope.ServiceProvider.GetService(typeof(IUserTweetService));
+				//	var firstUserId = context.Users.First().Id;
+				//	foreach (var tweet in tweets)
+				//	{
+				//		await twSer.Add(tweet);
+				//		await userTweetService.AddTweetToUserFavouriteCollection(firstUserId, tweet);
+				//	}
+				//	context.SaveChanges();
+				//}
 			}
 		}
 	}

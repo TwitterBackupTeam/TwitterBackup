@@ -5,8 +5,8 @@ using TwitterBackup.Data.Services.ServiceInterfaces;
 
 namespace TwitterBackup.Data.Services
 {
-	public class CascadeDeleteEntityService
-    {
+	public class CascadeDeleteEntityService : ICascadeDeleteEntityService
+	{
 		private readonly IAdminUserService userService;
 		private readonly IUnitOfWork unitOfWork;
 		private readonly IUserTweetService userTweetService;
@@ -45,10 +45,13 @@ namespace TwitterBackup.Data.Services
 
 		public virtual void CascadeDeleteFavouriteTweeter(string userId, long tweeterId)
 		{
-
+			if (string.IsNullOrEmpty(userId))
+			{
+				throw new ArgumentNullException(nameof(userId));
+			}
 		}
 
-		public virtual void CascadeDeleteTweet(string userId, string tweetId)
+		public virtual void CascadeDeleteTweet(string userId, long tweetId)
 		{
 		}
 	}
