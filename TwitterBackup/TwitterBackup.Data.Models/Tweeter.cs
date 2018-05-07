@@ -28,6 +28,8 @@ namespace TwitterBackup.Data.Models
 
         public int FollowersCount { get; set; }
 
+        public int FollowingCount { get; set; }
+
         public int StatusesCount { get; set; }
 
 		public bool IsDeleted { get; set; }

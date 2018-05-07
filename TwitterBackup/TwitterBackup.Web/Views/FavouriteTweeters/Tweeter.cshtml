@@ -1,4 +1,4 @@
-﻿@model TwitterBackup.Web.Models.FavouriteTweetersViewModels.FavouriteTweeterViewModel
+﻿@model TwitterBackup.Web.Models.FavouriteTweetersViewModels.TweeterViewModel
 
 <div class="twPc-div">
     <a class="twPc-bg twPc-block"></a>
@@ -30,7 +30,7 @@
                 <li class="twPc-ArrangeSizeFit">
                     <a  href="https://twitter.com/@(Model.ScreenName)/following">
                         <span class="twPc-StatLabel twPc-block">Following</span>
-                        <span class="twPc-StatValue">885</span>
+                        <span class="twPc-StatValue">@Model.FollowingCount</span>
                     </a>
                 </li>
                 <li class="twPc-ArrangeSizeFit">
