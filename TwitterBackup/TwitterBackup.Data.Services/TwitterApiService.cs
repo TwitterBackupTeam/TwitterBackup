@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TwitterBackup.Data.DTO;
@@ -35,5 +36,18 @@ namespace TwitterBackup.Data.Services
 
             return result.ToList();
         }
-    }
+
+		public async Task<TweeterDTO[]> GetTwitterUsersByScreenName(string name)
+		{
+			if (string.IsNullOrWhiteSpace(name))
+			{
+				throw new ArgumentNullException(nameof(name));
+			}
+
+			var searchString = "https://api.twitter.com/1.1/users/search.json?q=";
+			var foundUsersString = await this.twitterApiClient.GetTwitterJsonData(searchString + name.Trim());
+			var deserializedUsers = this.jsonDeserializer.Deserialize<TweeterDTO[]>(foundUsersString);
+			return deserializedUsers;
+		}
+	}
 }

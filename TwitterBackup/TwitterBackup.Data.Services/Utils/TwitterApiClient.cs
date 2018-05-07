@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace TwitterBackup.Data.Services.Utils
 {
@@ -42,7 +43,50 @@ namespace TwitterBackup.Data.Services.Utils
             return response;
         }
 
-        private async Task<string> GetResponse
+		public async Task<string> GetTwitterJsonData(string resourceUrl)
+		{
+			var originalResource = resourceUrl;
+			if (string.IsNullOrWhiteSpace(resourceUrl))
+			{
+				throw new ArgumentNullException();
+			}
+
+			SortedDictionary<string, string> parameters;
+
+			if (resourceUrl.Contains("?"))
+			{
+				parameters = this.GetParametersFromUrl(resourceUrl);
+				resourceUrl = resourceUrl.Substring(0, resourceUrl.IndexOf('?'));
+			}
+
+			else
+			{
+				parameters = null;
+			}
+
+			string authHeader = this.CreateHeader(resourceUrl, Method.GET, parameters);
+			
+			string jsonResponse = await this.GetResponse(originalResource, Method.GET, parameters);
+
+			return jsonResponse;
+		}
+
+		private SortedDictionary<string, string> GetParametersFromUrl(string resourceUrl)
+		{
+			string queryString = resourceUrl.Substring(resourceUrl.IndexOf('?') + 1);
+
+			var result = new SortedDictionary<string, string>();
+
+			var nameValueCollection = HttpUtility.ParseQueryString(queryString);
+
+			foreach (string parameter in nameValueCollection)
+			{
+				result.Add(parameter, "=" + Uri.EscapeDataString(nameValueCollection[parameter]));
+			}
+			return result;
+		}
+
+		private async Task<string> GetResponse
         (string resourceUrl, Method method, SortedDictionary<string, string> requestParameters)
         {
             WebRequest request = null;
@@ -85,7 +129,7 @@ namespace TwitterBackup.Data.Services.Utils
             return resultString;
         }
 
-        private string CreateOauthNonce()
+		private string CreateOauthNonce()
         {
             return this.rnd.Next(2222222, 9999999).ToString();
         }

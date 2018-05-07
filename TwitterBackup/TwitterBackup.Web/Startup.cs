@@ -93,7 +93,7 @@ namespace TwitterBackup.Web
 
 			app.UseAuthentication();
 
-			Seed(app.ApplicationServices).Wait();
+			Seed(app.ApplicationServices);
 			
 			app.UseMvc(routes =>
 			{
@@ -108,7 +108,7 @@ namespace TwitterBackup.Web
 			});
 		}
 
-		private async Task Seed(IServiceProvider serviceProvider)
+		private void Seed(IServiceProvider serviceProvider)
 		{ 
 			using (var serviceScope = serviceProvider.CreateScope())
 			{

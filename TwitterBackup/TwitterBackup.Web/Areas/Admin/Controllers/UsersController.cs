@@ -30,7 +30,7 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 			//this.cascadeDeleteService = cascadeDeleteService ?? throw new ArgumentNullException(nameof(cascadeDeleteService));
 		}
 
-		public async Task<IActionResult> Index()
+		public IActionResult Index()
 		{
 			return View();
 		}
