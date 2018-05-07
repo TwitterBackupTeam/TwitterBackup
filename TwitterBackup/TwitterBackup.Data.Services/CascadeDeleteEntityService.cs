@@ -11,6 +11,8 @@ namespace TwitterBackup.Data.Services
 		private readonly IUnitOfWork unitOfWork;
 		private readonly IUserTweetService userTweetService;
 		private readonly ITweetService tweetService;
+		private readonly ITweeterService tweeterService;
+		private readonly IUserTweeterService userTweeterService;
 
 		public CascadeDeleteEntityService(IAdminUserService userService, IUnitOfWork unitOfWork,
 										  IUserTweetService userTweetService, ITweetService tweetService)
@@ -19,7 +21,8 @@ namespace TwitterBackup.Data.Services
 			this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 			this.userTweetService = userTweetService ?? throw new ArgumentNullException(nameof(userTweetService));
 			this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
-			
+			this.userTweeterService = userTweeterService ?? throw new ArgumentNullException(nameof(userTweeterService));
+			this.tweeterService = tweeterService ?? throw new ArgumentNullException(nameof(tweeterService));
 		}
 
 
@@ -38,21 +41,49 @@ namespace TwitterBackup.Data.Services
 			{
 				foreach (var tweeterId in pairedTweeters)
 				{
-					this.CascadeDeleteFavouriteTweeter(userId, tweeterId);
+					this.CascadeDeleteUserTweeter(userId, tweeterId);
 				}
 			}
 		}
 
-		public virtual void CascadeDeleteFavouriteTweeter(string userId, long tweeterId)
+		public virtual void CascadeDeleteUserTweeter(string userId, long tweeterId)
 		{
 			if (string.IsNullOrEmpty(userId))
 			{
 				throw new ArgumentNullException(nameof(userId));
 			}
+
+			this.userTweeterService.DeleteUserTweeter(userId, tweeterId);
+
+			if (!this.tweeterService.DbContainsTweeter(tweeterId))
+			{
+				this.tweeterService.DeleteTweeterById(tweeterId);
+			}
+
+			var tweetIds = this.unitOfWork.UsersTweetRepository.All().Where(x => x.Tweet.Id == tweeterId && x.UserId == userId && !x.IsDeleted).Select(s => s.TweetId).ToList();
+
+			if (tweetIds.Any())
+			{
+				foreach (var tweetId in tweetIds)
+				{
+					this.CascadeDeleteTweet(userId, tweetId);
+				}
+			}
 		}
 
 		public virtual void CascadeDeleteTweet(string userId, long tweetId)
 		{
+			if (string.IsNullOrEmpty(userId))
+			{
+				throw new ArgumentNullException(nameof(userId));
+			}
+
+			this.userTweetService.DeleteUserTweet(userId, tweetId);
+
+			if (!this.userTweetService.DbContainsTweet(tweetId))
+			{
+				this.tweetService.Delete(tweetId);				
+			}
 		}
 	}
 }

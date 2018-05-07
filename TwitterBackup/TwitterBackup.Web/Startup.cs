@@ -73,6 +73,7 @@ namespace TwitterBackup.Web
 			services.AddTransient<IFavouriteTweetersStatisticsService, FavouriteTweetersStatisticsService>();
 			services.AddTransient<ITweeterService, TweeterService>();
 			services.AddTransient<IUserTweeterService, UserTweeterService>();
+			services.AddTransient<ICascadeDeleteEntityService, CascadeDeleteEntityService>();
 
 			services.AddMvc();
 		}

@@ -4,7 +4,7 @@
     {
 		void CascadeDeleteUser(string userId);
 
-		void CascadeDeleteFavouriteTweeter(string userId, long tweeterId);
+		void CascadeDeleteUserTweeter(string userId, long tweeterId);
 
 		void CascadeDeleteTweet(string userId, long tweetId);
 	}

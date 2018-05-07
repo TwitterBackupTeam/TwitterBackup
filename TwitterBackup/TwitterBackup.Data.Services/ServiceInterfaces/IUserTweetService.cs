@@ -11,5 +11,9 @@ namespace TwitterBackup.Data.Services.ServiceInterfaces
         Task<ICollection<TweetDTO>> GetAllFavouriteTweetsFromUserId(string id);
 
         Task<bool> CheckIfTweetExistsInUserFavouriteCollection(long tweetId, string userId);
-    }
+
+		void DeleteUserTweet(string userId, long tweetId);
+
+		bool DbContainsTweet(long tweetId);
+	}
 }

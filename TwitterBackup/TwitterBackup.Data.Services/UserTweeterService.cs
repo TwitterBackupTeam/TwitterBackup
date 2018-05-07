@@ -99,7 +99,7 @@ namespace TwitterBackup.Data.Services
 			}
 		}
 
-		public void DeleteUserFollowee(string userId, long tweeterId)
+		public void DeleteUserTweeter(string userId, long tweeterId)
 		{
 			if (string.IsNullOrEmpty(userId))
 			{
