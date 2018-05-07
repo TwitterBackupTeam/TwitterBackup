@@ -2,7 +2,7 @@
 
 namespace TwitterBackup.Web.Models.FavouriteTweetersViewModels
 {
-    public class FavouriteTweeterViewModel
+    public class TweeterViewModel
     {
         public string Name { get; set; }
 
@@ -15,6 +15,8 @@ namespace TwitterBackup.Web.Models.FavouriteTweetersViewModels
         public string ProfileImageUrl { get; set; }
 
         public int FollowersCount { get; set; }
+
+        public int FollowingCount { get; set; }
 
         public int StatusesCount { get; set; }
 

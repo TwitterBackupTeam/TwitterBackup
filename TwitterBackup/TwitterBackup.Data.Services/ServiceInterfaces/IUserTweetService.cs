@@ -9,5 +9,7 @@ namespace TwitterBackup.Data.Services.ServiceInterfaces
         Task<bool> AddTweetToUserFavouriteCollection(string userId, TweetDTO tweetDto);
 
         Task<ICollection<TweetDTO>> GetAllFavouriteTweetsFromUserId(string id);
+
+        Task<bool> CheckIfTweetExistsInUserFavouriteCollection(long tweetId, string userId);
     }
 }

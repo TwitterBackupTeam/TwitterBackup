@@ -109,8 +109,8 @@ namespace TwitterBackup.Web
 
                     var user = new User
                     {
-                        UserName = "k.zhekow@gmail.com",
-                        Email = "k.zhekow@gmail.com"
+                        UserName = "asd@asd.asd",
+                        Email = "asd@asd.asd"
                     };
 
                     var createdUser = await userManager.CreateAsync(user, "mor3c0mpl3xp4$$w0rd");

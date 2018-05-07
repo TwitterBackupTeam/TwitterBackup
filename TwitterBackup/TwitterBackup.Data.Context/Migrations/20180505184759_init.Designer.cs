@@ -11,9 +11,10 @@ using TwitterBackup.Data.Context;
 namespace TwitterBackup.Data.Context.Migrations
 {
     [DbContext(typeof(TwitterBackupDbContext))]
-    partial class TwitterBackupDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180505184759_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -156,8 +157,6 @@ namespace TwitterBackup.Data.Context.Migrations
                     b.Property<string>("Description");
 
                     b.Property<int>("FollowersCount");
-
-                    b.Property<int>("FollowingCount");
 
                     b.Property<string>("Location");
 

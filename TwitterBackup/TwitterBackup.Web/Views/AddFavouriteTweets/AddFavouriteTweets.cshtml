@@ -1,0 +1,17 @@
+﻿@model TwitterBackup.Web.Models.AddFavouriteTweetsViewModels.AddFavouriteTweetsViewModel
+
+<h2>Add Favourite Tweets</h2>
+
+
+@*@await Html.RenderPartialAsync("Tweeter", @Model.TweeterViewModel);*@
+<form asp-controller="AddFavouriteTweets" asp-action="Save" method="post">
+    
+    @foreach (var tweetViewModel in @Model.Tweets)
+    {
+        @Html.DisplayTextFor(t => tweetViewModel.Text);
+        @Html.CheckBoxFor(t => tweetViewModel.Favourite);
+    }
+
+    <button type="submit" class="btn btn-default">Save</button>
+
+</form>

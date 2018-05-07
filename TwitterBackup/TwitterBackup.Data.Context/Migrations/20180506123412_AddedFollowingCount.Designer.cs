@@ -11,8 +11,8 @@ using TwitterBackup.Data.Context;
 namespace TwitterBackup.Data.Context.Migrations
 {
     [DbContext(typeof(TwitterBackupDbContext))]
-    [Migration("20180505112728_initial")]
-    partial class initial
+    [Migration("20180506123412_AddedFollowingCount")]
+    partial class AddedFollowingCount
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -157,6 +157,8 @@ namespace TwitterBackup.Data.Context.Migrations
                     b.Property<string>("Description");
 
                     b.Property<int>("FollowersCount");
+
+                    b.Property<int>("FollowingCount");
 
                     b.Property<string>("Location");
 
