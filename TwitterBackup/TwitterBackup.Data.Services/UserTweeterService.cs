@@ -40,7 +40,36 @@ namespace TwitterBackup.Data.Services
 				.All().Any(x => x.TweeterId == tweeterId && x.UserId == userId && x.IsDeleted);
 		}
 
-		public void SaveUserTweeter(string userId, TweeterDTO tweeter)
+	    public bool SaveUserTweeter(string userId, long tweeterId)
+	    {
+	        if (string.IsNullOrEmpty(userId))
+	        {
+	            throw new ArgumentNullException(nameof(userId));
+	        }
+
+	        if (tweeterId <= 0)
+	        {
+	            throw new ArgumentNullException(nameof(tweeterId));
+            }
+
+	        if (!this.DbContainsUserTweeter(userId, tweeterId))
+	        {
+	            var userTweeter = new UserTweeter
+	            {
+	                UserId = userId,
+	                TweeterId = tweeterId
+	            };
+
+	            this.unitOfWork.UsersTweeterRepository.Add(userTweeter);
+	            this.unitOfWork.SaveChanges();
+
+	            return true;
+	        }
+
+	        return false;
+	    }
+
+        public void SaveUserTweeter(string userId, TweeterDTO tweeter)
 		{
 			if (string.IsNullOrEmpty(userId))
 			{

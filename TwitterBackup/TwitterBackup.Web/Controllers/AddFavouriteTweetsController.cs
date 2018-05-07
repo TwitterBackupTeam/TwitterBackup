@@ -14,14 +14,16 @@ namespace TwitterBackup.Web.Controllers
         private readonly ITwitterAPIService twitterApiService;
         private readonly ITweetService tweetService;
         private readonly IUserTweetService userTweetService;
+        private readonly IUserTweeterService userTweeterService;
         private readonly UserManager<User> userManager;
         private readonly IAutoMapper autoMapper;
 
-        public AddFavouriteTweetsController(ITwitterAPIService twitterApiService, ITweetService tweetService, IUserTweetService userTweetService, UserManager<User> userManager, IAutoMapper autoMapper)
+        public AddFavouriteTweetsController(ITwitterAPIService twitterApiService, ITweetService tweetService, IUserTweetService userTweetService, IUserTweeterService userTweeterService, UserManager<User> userManager, IAutoMapper autoMapper)
         {
             this.twitterApiService = twitterApiService;
             this.tweetService = tweetService;
             this.userTweetService = userTweetService;
+            this.userTweeterService = userTweeterService;
             this.userManager = userManager;
             this.autoMapper = autoMapper;
         }
@@ -61,12 +63,14 @@ namespace TwitterBackup.Web.Controllers
                 {
                     await this.userTweetService.DeleteTweetFromUserFavouriteCollection(addTweetViewModel.Id,
                         userId);
+                    this.userTweeterService.DeleteUserTweeter(userId, vm.TweeterViewModel.Id);
                 }
 
                 if (!(await this.userTweetService.CheckIfTweetExistsInUserFavouriteCollection(addTweetViewModel.Id,
                         userId)) && addTweetViewModel.Favourite)
                 {
                     await this.userTweetService.AddTweetToUserFavouriteCollection(userId, addTweetViewModel.Id);
+                    this.userTweeterService.SaveUserTweeter(userId, vm.TweeterViewModel.Id);
                 }
             }
 
