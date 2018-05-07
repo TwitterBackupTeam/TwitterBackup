@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TwitterBackup.Data.DTO.StatisticsDTOs;
-using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Repository;
 using TwitterBackup.Data.Services.ServiceInterfaces.StatisticsServices;
 
@@ -11,11 +9,11 @@ namespace TwitterBackup.Data.Services
 {
 	public class StoredTweetsStatisticsService : IStoredTweetsStatisticsService
 	{
-		private readonly IRepository<UserTweet> userTweetRepository;
+		private readonly IUnitOfWork unitOfWork;
 
-		public StoredTweetsStatisticsService(IRepository<UserTweet> userTweetRepository)
+		public StoredTweetsStatisticsService(IUnitOfWork unitOfWork)
 		{
-			this.userTweetRepository = userTweetRepository ?? throw new ArgumentNullException(nameof(userTweetRepository));
+			this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 		}
 
 		public ICollection<StoredTweetDTO> GetStoredTweetsByUserId(string userId)
@@ -25,7 +23,7 @@ namespace TwitterBackup.Data.Services
 				throw new ArgumentException("UserId cannot be null");
 			}
 
-			var savedTweets = this.userTweetRepository.All().Where(u => u.UserId == userId).Select(s =>
+			var savedTweets = this.unitOfWork.UsersTweetRepository.All().Where(u => u.UserId == userId).Select(s =>
 				new StoredTweetDTO
 				{
 					Id = s.TweetId,
@@ -43,7 +41,7 @@ namespace TwitterBackup.Data.Services
 				throw new ArgumentException("UserId cannot be null");
 			}
 
-			var deletedTweets = this.userTweetRepository.All().Where(u => u.UserId == userId && u.IsDeleted).Select(s =>
+			var deletedTweets = this.unitOfWork.UsersTweetRepository.All().Where(u => u.UserId == userId && u.IsDeleted).Select(s =>
 				new DeletedTweetDTO
 				{
 					AuthorScreenName = s.Tweet.Author.ScreenName,

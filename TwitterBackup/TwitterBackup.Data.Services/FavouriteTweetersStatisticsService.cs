@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TwitterBackup.Data.DTO.StatisticsDTOs;
-using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Repository;
 using TwitterBackup.Data.Services.ServiceInterfaces.StatisticsServices;
 
@@ -41,7 +40,7 @@ namespace ReTwitter.Services.Data.Statistics
 			{
 				throw new ArgumentException("UserId cannot be null");
 			}
-			var deletedeFollowees = this.userTweeterRepository.All().Where(u => u.UserId == userId && u.IsDeleted).Select(s =>
+			var deletedeFollowees = this.unitOfWork.UsersTweeterRepository.All().Where(u => u.UserId == userId && u.IsDeleted).Select(s =>
 				new DeletedFavouriteTweeterDTO
 				{
 					ScreenName = s.Tweeter.ScreenName,
