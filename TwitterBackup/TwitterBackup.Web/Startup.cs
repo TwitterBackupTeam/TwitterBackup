@@ -69,6 +69,8 @@ namespace TwitterBackup.Web
 			services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
 			services.AddTransient<IAdminUserService, AdminUserService>();
 			services.AddTransient<IStatisticsService, StatisticsService>();
+			services.AddTransient<IStoredTweetsStatisticsService, StoredTweetsStatisticsService>();
+			services.AddTransient<IFavouriteTweetersStatisticsService, FavouriteTweetersStatisticsService>();
 
 			services.AddMvc();
 		}
