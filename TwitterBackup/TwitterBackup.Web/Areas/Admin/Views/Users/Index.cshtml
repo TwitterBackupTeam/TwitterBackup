@@ -9,7 +9,10 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<table class="table table-bordered table-hover">
+
+<br />
+
+<table class="table table-hover">
 	<thead>
 		<tr>
 			<th>
@@ -21,14 +24,14 @@
 	<tbody>
 		@foreach (var user in Model.Users)
 		{
-			<tr>
-				<th>
-					@user.UserName
-				</th>
-				<th>
-					@Html.ActionLink("Delete", "Delete", "Users", new { userId = user.Id, userName = user.UserName }, new { @class = "btn btn-info" })
-				</th>
-			</tr>
+		<tr>
+			<td>
+				@user.UserName
+			</td>
+			<td>
+				@Html.ActionLink("Delete", "Delete", "Users", new { userId = user.Id, userName = user.UserName }, new { @class = "btn btn-info" })
+			</td>
+		</tr>
 		}
 	</tbody>
 </table>

@@ -58,7 +58,6 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 			}
 
 			this.cascadeDeleteEntityService.CascadeDeleteUser(userToBeDeleted.Id);
-			TempData["Success-Message"] = $"You successfully deleted the user.";
 
 			return RedirectToAction(nameof(Index));
 		}
