@@ -124,13 +124,13 @@ namespace TwitterBackup.Web
 
 					Task.Run(async () =>
 					{
-						var adminUserName = "Administrator";
+						//var adminUserName = "admin@admin.com";
 
-						var roleExists = await roleManager.RoleExistsAsync(adminUserName);
+						var roleExists = await roleManager.RoleExistsAsync("Administrator");
 
 						if (!roleExists)
 						{
-							var identityRole = new IdentityRole(adminUserName);
+							var identityRole = new IdentityRole("Administrator");
 
 							await roleManager.CreateAsync(identityRole);
 						}
@@ -144,30 +144,31 @@ namespace TwitterBackup.Web
 							adminUser = new User
 							{
 								Email = adminEmail,
-								UserName = adminUserName
-							};
+								UserName = adminEmail
+                            };
 
 							await userManager.CreateAsync(adminUser, "mor3c0mpl3xp4$$w0rd");
 
-							await userManager.AddToRoleAsync(adminUser, adminUserName);
+							await userManager.AddToRoleAsync(adminUser, "Administrator");
 						}
 					})
 					.Wait();
 				}
 
-				if (!context.Tweeters.Any())
-				{
-					var twApi = (ITwitterAPIService)serviceScope.ServiceProvider.GetService(typeof(ITwitterAPIService));
-					var tweets = await twApi.GetTweets("realDonaldTrump");
-					var twSer = (ITweetService)serviceScope.ServiceProvider.GetService(typeof(ITweetService));
-					var userTweetService = (IUserTweetService)serviceScope.ServiceProvider.GetService(typeof(IUserTweetService));
-					var firstUserId = context.Users.First().Id;
-					foreach (var tweet in tweets)
-					{
-						await twSer.Add(tweet);
-						await userTweetService.AddTweetToUserFavouriteCollection(firstUserId, tweet);
-					}
-				}
+				//if (!context.Tweeters.Any())
+				//{
+				//	var twApi = (ITwitterAPIService)serviceScope.ServiceProvider.GetService(typeof(ITwitterAPIService));
+				//	var tweets = await twApi.GetTweets("realDonaldTrump");
+				//	var twSer = (ITweetService)serviceScope.ServiceProvider.GetService(typeof(ITweetService));
+				//	var userTweetService = (IUserTweetService)serviceScope.ServiceProvider.GetService(typeof(IUserTweetService));
+				//	var firstUserId = context.Users.First().Id;
+				//	foreach (var tweet in tweets)
+				//	{
+				//		await twSer.Add(tweet);
+				//		await userTweetService.AddTweetToUserFavouriteCollection(firstUserId, tweet);
+				//	}
+				//}
+
 				context.SaveChanges();
 			}
 		}

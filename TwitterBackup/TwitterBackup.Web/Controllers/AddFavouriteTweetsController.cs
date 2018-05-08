@@ -63,7 +63,8 @@ namespace TwitterBackup.Web.Controllers
                 {
                     await this.userTweetService.DeleteTweetFromUserFavouriteCollection(addTweetViewModel.Id,
                         userId);
-                    this.userTweeterService.DeleteUserTweeter(userId, vm.TweeterViewModel.Id);
+                    // TODO: Check if this is the deletion of the last tweet from this tweeter, and only then delete the relation!
+                    //this.userTweeterService.DeleteUserTweeter(userId, vm.TweeterViewModel.Id);
                 }
 
                 if (!(await this.userTweetService.CheckIfTweetExistsInUserFavouriteCollection(addTweetViewModel.Id,
