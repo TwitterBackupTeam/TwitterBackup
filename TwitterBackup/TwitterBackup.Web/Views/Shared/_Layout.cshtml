@@ -35,7 +35,7 @@
 					<li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
 					@if (User.Identity.IsAuthenticated)
 					{
-						<li><a asp-controller="FavouriteTweeters" asp-action="FavouriteTweeters">Favourite Tweeters</a></li>
+						<li><a asp-area="" asp-controller="FavouriteTweeters" asp-action="FavouriteTweeters">Favourite Tweeters</a></li>
 					}
 					@if (User.IsInRole("Administrator"))
 					{
