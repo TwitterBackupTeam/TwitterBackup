@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Services.ServiceInterfaces;
+using TwitterBackup.Web.Areas.Admin.Models.Users;
 
 namespace TwitterBackup.Web.Areas.Admin.Controllers
 {
@@ -28,12 +29,17 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 			this.cascadeDeleteEntityService = cascadeDeleteEntityService ?? throw new ArgumentNullException(nameof(cascadeDeleteEntityService));
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			return View();
+			var users = await this.userService.GetAllUsersAsync();
+
+			return View(new ListUsersViewModel
+			{
+				Users = users
+			});
 		}
 
-		public async Task<IActionResult> DeleteUser(string userId)
+		public async Task<IActionResult> Delete(string userId)
 		{
 			var user = await this.userManager.GetUserAsync(HttpContext.User);
 
@@ -43,7 +49,7 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 			}
 
 			var userRoles = await this.userManager.GetRolesAsync(user);
-			var userToBeDeleted = await this.userService.GetUserByUsernameAsync(userId);
+			var userToBeDeleted = await this.userService.GetUserByIdAsync(userId);
 			var userToDeleteRoles = await this.userManager.GetRolesAsync(userToBeDeleted);
 
 			if (userToDeleteRoles.Contains("Administrator"))
@@ -52,8 +58,9 @@ namespace TwitterBackup.Web.Areas.Admin.Controllers
 			}
 
 			this.cascadeDeleteEntityService.CascadeDeleteUser(userToBeDeleted.Id);
+			TempData["Success-Message"] = $"You successfully deleted the user.";
 
-			return this.Json(true);
+			return RedirectToAction(nameof(Index));
 		}
 	}
 }

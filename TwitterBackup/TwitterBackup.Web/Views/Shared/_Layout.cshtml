@@ -40,6 +40,7 @@
 					@if (User.IsInRole("Administrator"))
 					{
 						<li><a asp-area="Admin" asp-controller="Statistics" asp-action="Index">Statistics</a></li>
+						<li><a asp-area="Admin" asp-controller="Users" asp-action="Index">User Management</a></li>
 					}
 				</ul>
 				@await Html.PartialAsync("_LoginPartial")

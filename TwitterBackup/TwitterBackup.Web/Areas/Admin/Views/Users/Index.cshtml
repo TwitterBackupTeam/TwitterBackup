@@ -1,0 +1,34 @@
+﻿@using TwitterBackup.Web.Areas.Admin.Models.Users
+@model TwitterBackup.Web.Areas.Admin.Models.Users.ListUsersViewModel
+
+<br />
+<br />
+
+@{
+	ViewData["Title"] = "User Management";
+}
+
+<h1>@ViewData["Title"]</h1>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>
+				Username
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var user in Model.Users)
+		{
+			<tr>
+				<th>
+					@user.UserName
+				</th>
+				<th>
+					@Html.ActionLink("Delete", "Delete", "Users", new { userId = user.Id, userName = user.UserName }, new { @class = "btn btn-info" })
+				</th>
+			</tr>
+		}
+	</tbody>
+</table>

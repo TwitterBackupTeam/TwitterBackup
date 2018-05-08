@@ -36,8 +36,4 @@
     <ProjectReference Include="..\TwitterBackup.Data.Services\TwitterBackup.Data.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Views\Users\" />
-  </ItemGroup>
-
 </Project>
