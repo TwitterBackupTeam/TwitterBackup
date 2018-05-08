@@ -63,7 +63,12 @@ namespace TwitterBackup.Data.Services
 			return await this.userTweetRepository.All().AnyAsync(ut => ut.UserId == userId && ut.TweetId == tweetId);
 		}
 
-		public async Task<bool> DeleteTweetFromUserFavouriteCollection(long tweetId, string userId)
+	    public async Task<bool> CheckIfUserHasTweetFromTweeterId(long tweeterId, string userId)
+	    {
+	        return await this.userTweetRepository.All().AnyAsync(ut => ut.UserId == userId && this.tweetService.GetTweetById(ut.TweetId).Author.Id == tweeterId);
+	    }
+
+        public async Task<bool> DeleteTweetFromUserFavouriteCollection(long tweetId, string userId)
 		{
 			var userTweet = await this.userTweetRepository.All()
 				.FirstOrDefaultAsync(ut => ut.UserId == userId && ut.TweetId == tweetId);

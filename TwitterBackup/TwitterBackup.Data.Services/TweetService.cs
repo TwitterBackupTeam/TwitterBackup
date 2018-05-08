@@ -33,6 +33,11 @@ namespace TwitterBackup.Data.Services
             var tweet = this.AutoMapper.MapTo<Tweet>(dto);
             tweet.CreatedAt = DateTime.ParseExact(dto.CreatedAtStr, "ddd MMM dd HH:mm:ss K yyyy",
                 CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+            if (this.UnitOfWork.TweeterRepository.All().Where(t => t.Id == dto.Author.Id) != null)
+            {
+                tweet.Author = this.UnitOfWork.TweeterRepository.All().First(t => t.Id == dto.Author.Id);
+            }
+
             this.UnitOfWork.TweetRepository.Add(tweet);
             var res = await this.UnitOfWork.SaveChangesAsync();
 
