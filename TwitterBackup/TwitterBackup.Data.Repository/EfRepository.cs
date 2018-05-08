@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using TwitterBackup.Data.Context;
 
@@ -11,8 +12,8 @@ namespace TwitterBackup.Data.Repository
 
         public EfRepository(TwitterBackupDbContext dbContext)
         {
-            this.dbContext = dbContext;
-            this.dbSet = this.dbContext.Set<T>();
+			this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+			this.dbSet = this.dbContext.Set<T>();
         }
 
         public void Add(T entity)
@@ -27,7 +28,7 @@ namespace TwitterBackup.Data.Repository
                 this.dbSet.Add(entity);
             }
         }
-
+			
         public IQueryable<T> All(bool withoutCache = false)
         {
             var query = this.dbSet.AsQueryable();

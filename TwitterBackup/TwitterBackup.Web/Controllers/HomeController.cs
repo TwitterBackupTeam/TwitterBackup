@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using TwitterBackup.Web.Models;
 
 namespace TwitterBackup.Web.Controllers
 {
-    public class HomeController : Controller
+	public class HomeController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult About()
+		[Authorize(Roles = "Administrator")]
+		public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
 

@@ -1,9 +1,8 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace TwitterBackup.Data.DTO
 {
-    public class TweetDTO
+	public class TweetDTO
     {
         [JsonProperty("id")]
         public long Id { get; set; }

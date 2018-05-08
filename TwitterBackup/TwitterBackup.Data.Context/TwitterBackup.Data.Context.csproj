@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Configurations\TweeterConfiguration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TwitterBackup.Data.Models\TwitterBackup.Data.Models.csproj" />
   </ItemGroup>
 

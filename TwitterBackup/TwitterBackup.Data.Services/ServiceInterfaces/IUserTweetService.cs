@@ -15,5 +15,9 @@ namespace TwitterBackup.Data.Services.ServiceInterfaces
         Task<bool> CheckIfTweetExistsInUserFavouriteCollection(long tweetId, string userId);
 
         Task<bool> DeleteTweetFromUserFavouriteCollection(long tweetId, string userId);
-    }
+    
+		void DeleteUserTweet(string userId, long tweetId);
+
+		bool DbContainsTweet(long tweetId);
+	}
 }

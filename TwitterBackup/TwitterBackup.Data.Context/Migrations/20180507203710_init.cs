@@ -30,8 +30,12 @@ namespace TwitterBackup.Data.Context.Migrations
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    LastName = table.Column<string>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
@@ -40,6 +44,7 @@ namespace TwitterBackup.Data.Context.Migrations
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
+                    TwitterName = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true)
                 },
@@ -53,8 +58,11 @@ namespace TwitterBackup.Data.Context.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     FollowersCount = table.Column<int>(nullable: false),
+                    FollowingCount = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     Location = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     ProfileImageUrl = table.Column<string>(nullable: true),
@@ -179,7 +187,10 @@ namespace TwitterBackup.Data.Context.Migrations
                     Id = table.Column<long>(nullable: false),
                     AuthorId = table.Column<long>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     FavouriteCount = table.Column<int>(nullable: false),
+                    HashTags = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
                     RetweetCount = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true)
                 },
@@ -195,27 +206,55 @@ namespace TwitterBackup.Data.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTweet",
+                name: "UserTweeters",
                 columns: table => new
                 {
+                    TweeterId = table.Column<long>(nullable: false),
                     UserId = table.Column<string>(nullable: false),
-                    TweetId = table.Column<long>(nullable: false)
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTweet", x => new { x.UserId, x.TweetId });
+                    table.PrimaryKey("PK_UserTweeters", x => new { x.TweeterId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_UserTweet_Tweets_TweetId",
-                        column: x => x.TweetId,
-                        principalTable: "Tweets",
+                        name: "FK_UserTweeters_Tweeters_TweeterId",
+                        column: x => x.TweeterId,
+                        principalTable: "Tweeters",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserTweet_AspNetUsers_UserId",
+                        name: "FK_UserTweeters_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTweets",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    TweetId = table.Column<long>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTweets", x => new { x.UserId, x.TweetId });
+                    table.ForeignKey(
+                        name: "FK_UserTweets_Tweets_TweetId",
+                        column: x => x.TweetId,
+                        principalTable: "Tweets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserTweets_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -263,8 +302,13 @@ namespace TwitterBackup.Data.Context.Migrations
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserTweet_TweetId",
-                table: "UserTweet",
+                name: "IX_UserTweeters_UserId",
+                table: "UserTweeters",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTweets_TweetId",
+                table: "UserTweets",
                 column: "TweetId");
         }
 
@@ -286,7 +330,10 @@ namespace TwitterBackup.Data.Context.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "UserTweet");
+                name: "UserTweeters");
+
+            migrationBuilder.DropTable(
+                name: "UserTweets");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
