@@ -1,4 +1,5 @@
-﻿using TwitterBackup.Data.Repository;
+﻿using System;
+using TwitterBackup.Data.Repository;
 using TwitterBackup.Data.Services.Utils;
 
 namespace TwitterBackup.Data.Services
@@ -10,6 +11,9 @@ namespace TwitterBackup.Data.Services
 
         protected DatabaseService(IAutoMapper autoMapper, IUnitOfWork unitOfWork)
         {
+            this.AutoMapper = autoMapper ?? throw new ArgumentNullException(nameof(autoMapper));
+
+            this.UnitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(autoMapper));
             AutoMapper = autoMapper;
 			UnitOfWork = unitOfWork;
         }
