@@ -5,7 +5,7 @@
 @{ await Html.RenderPartialAsync("AddFavTweeter", Model.TweeterViewModel); }
 
 <form asp-controller="AddFavouriteTweets" asp-action="AddFavouriteTweets" method="post">
-    
+    @Html.AntiForgeryToken();
     @Html.HiddenFor(t => Model.TweeterViewModel.Id);
     @for (int i = 0; i < @Model.Tweets.Count; i++)
     {

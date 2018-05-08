@@ -53,6 +53,7 @@ namespace TwitterBackup.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFavouriteTweets(AddFavouriteTweetsViewModel vm)
         {
             var userId = this.userManager.GetUserId(this.User);
