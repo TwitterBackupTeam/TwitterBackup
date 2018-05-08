@@ -12,6 +12,11 @@
     <None Remove="Data\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="Views\Home\About.cshtml" />
+    <Content Remove="Views\Home\Contact.cshtml" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
@@ -34,10 +39,6 @@
     <ProjectReference Include="..\TwitterBackup.Data.DTO\TwitterBackup.Data.DTO.csproj" />
     <ProjectReference Include="..\TwitterBackup.Data.Models\TwitterBackup.Data.Models.csproj" />
     <ProjectReference Include="..\TwitterBackup.Data.Services\TwitterBackup.Data.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Views\Users\" />
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,17 @@
 ﻿@using TwitterBackup.Web.Areas.Admin.Models.Users
 @model TwitterBackup.Web.Areas.Admin.Models.Statistics.StatisticsViewModel
 
+<br />
+<br />
+
 @{
 	ViewData["Title"] = "Users Statistics";
 }
-
 <h1>@ViewData["Title"]</h1>
-<table class="table table-bordered table-hover">
+
+<br />
+
+<table class="table table-hover">
 	<thead>
 		<tr>
 			<th>
@@ -33,41 +38,41 @@
 		@foreach (var user in Model.UserStatisticsDTOs)
 		{
 			<tr>
-				<th>
+				<td>
 					@Html.DisplayFor(modelItem => user.UserName)
-				</th>
-				<th>
+				</td>
+				<td>
 					@Html.DisplayFor(modelItem => user.Status)
-				</th>
-				<th>
+				</td>
+				<td>
 					<a asp-controller="Statistics" asp-action="FavouriteTweeters" asp-route-userId="@user.Id">@Html.DisplayFor(modelItem => user.FavouriteTweetersCount)</a>
-				</th>
-				<th>
+				</td>
+				<td>
 					<a asp-controller="Statistics" asp-action="DeletedFavouriteTweeters" asp-route-userId="@user.Id">@Html.DisplayFor(modelItem => user.DeletedFavouriteTweetersCount)</a>
-				</th>
-				<th>
+				</td>
+				<td>
 					<a asp-controller="Statistics" asp-action="StoredTweets" asp-route-userId="@user.Id">@Html.DisplayFor(modelItem => user.StoredTweetsCount)</a>
-				</th>
-				<th>
+				</td>
+				<td>
 					<a asp-controller="Statistics" asp-action="DeletedTweets" asp-route-userId="@user.Id">@Html.DisplayFor(modelItem => user.DeletedTweetsCount)</a>
-				</th>
+				</td>
 			</tr>
 		}
 		<tr>
-			<th>
-			</th>
-			<th>
-			</th>
-			<th>
+			<td>
+			</td>
+			<td>
+			</td>
+			<td>
 				Total: @Html.DisplayFor(modelItem => Model.OverallStatistics.TotalFavouriteTweetersCount) tweeters
-			</th>
-			<th>
-			</th>
-			<th>
+			</td>
+			<td>
+			</td>
+			<td>
 				Total: @Html.DisplayFor(modelItem => Model.OverallStatistics.TotalStoredTweetsCount) tweets
-			</th>
-			<th>
-			</th>
+			</td>
+			<td>
+			</td>
 		</tr>
 	</tbody>
 </table>

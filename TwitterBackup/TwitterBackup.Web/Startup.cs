@@ -64,6 +64,7 @@ namespace TwitterBackup.Web
 			services.AddTransient<ITwitterAPIService, TwitterApiService>();
 			services.AddTransient<ITweetService, TweetService>();
 			services.AddTransient<IUserTweetService, UserTweetService>();
+			services.AddTransient<IUserTweeterService, UserTweeterService>();
 			services.AddTransient<IAutoMapper, AutoMapperWrapper>();
 			services.AddTransient<IUnitOfWork, UnitOfWork>();
 			services.AddTransient(typeof(IRepository<>), typeof(EfRepository<>));
@@ -72,7 +73,6 @@ namespace TwitterBackup.Web
 			services.AddTransient<IStoredTweetsStatisticsService, StoredTweetsStatisticsService>();
 			services.AddTransient<IFavouriteTweetersStatisticsService, FavouriteTweetersStatisticsService>();
 			services.AddTransient<ITweeterService, TweeterService>();
-			services.AddTransient<IUserTweeterService, UserTweeterService>();
 			services.AddTransient<ICascadeDeleteEntityService, CascadeDeleteEntityService>();
 
 			services.AddMvc();

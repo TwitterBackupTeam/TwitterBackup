@@ -60,7 +60,9 @@ namespace ReTwitter.Services.Data.Statistics
 				dto.Value.DeletedFavouriteTweetersCount = allUsersTweeters.Count(ut => ut.UserName == dto.Key && ut.IsDeleted);
 
 				overallStatisticsDTO.TotalFavouriteTweetersCount += dto.Value.FavouriteTweetersCount;
+				overallStatisticsDTO.TotalFavouriteTweetersCount += dto.Value.DeletedFavouriteTweetersCount;
 				overallStatisticsDTO.TotalStoredTweetsCount += dto.Value.StoredTweetsCount;
+				overallStatisticsDTO.TotalStoredTweetsCount += dto.Value.DeletedTweetsCount;
 			}
 
 			StatisticsDTO statisticsDTO = new StatisticsDTO()

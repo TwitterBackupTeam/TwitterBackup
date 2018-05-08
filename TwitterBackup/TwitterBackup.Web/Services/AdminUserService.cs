@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,9 +8,7 @@ using System.Threading.Tasks;
 using TwitterBackup.Data.DTO;
 using TwitterBackup.Data.Models;
 using TwitterBackup.Data.Repository;
-using TwitterBackup.Data.Services;
 using TwitterBackup.Data.Services.ServiceInterfaces;
-using TwitterBackup.Data.Services.Utils;
 
 namespace TwitterBackup.Web.Services
 {
@@ -48,5 +47,12 @@ namespace TwitterBackup.Web.Services
 			this.unitOfWork.UsersRepository.Delete(user);
 			this.unitOfWork.SaveChanges();
 		}
+
+		public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
+			=> await this.unitOfWork.UsersRepository.All().ProjectTo<UserDTO>().ToListAsync();
+
+		public async Task<User> GetUserByIdAsync(string userId)
+		   => await this.unitOfWork.UsersRepository.All().FirstOrDefaultAsync(x => x.Id == userId);
+
 	}
 }

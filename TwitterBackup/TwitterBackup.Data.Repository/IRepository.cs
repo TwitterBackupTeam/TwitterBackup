@@ -11,8 +11,6 @@ namespace TwitterBackup.Data.Repository
 
         void Delete(T entity);
 
-        void Delete(params object[] id);
-
         T GetById(params object[] id);
 
         void RefreshEntity(T entity);

@@ -15,7 +15,8 @@ namespace TwitterBackup.Data.Services
 		private readonly IUserTweeterService userTweeterService;
 
 		public CascadeDeleteEntityService(IAdminUserService userService, IUnitOfWork unitOfWork,
-										  IUserTweetService userTweetService, ITweetService tweetService)
+										  IUserTweetService userTweetService, ITweetService tweetService,
+										  IUserTweeterService userTweeterService, ITweeterService tweeterService)
 		{
 			this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
 			this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));

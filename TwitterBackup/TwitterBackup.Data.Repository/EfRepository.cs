@@ -2,11 +2,12 @@
 using System;
 using System.Linq;
 using TwitterBackup.Data.Context;
+using TwitterBackup.Data.Models.Abstract;
 
 namespace TwitterBackup.Data.Repository
 {
-    public class EfRepository<T> : IRepository<T> where T : class
-    {
+    public class EfRepository<T> : IRepository<T> where T : class, IDeletable
+	{
         private TwitterBackupDbContext dbContext;
         private DbSet<T> dbSet;
 
@@ -43,26 +44,21 @@ namespace TwitterBackup.Data.Repository
 
         public void Delete(T entity)
         {
-            var entry = this.dbContext.Entry(entity);
-            if (entry.State != EntityState.Deleted)
-            {
-                entry.State = EntityState.Deleted;
-            }
-            else
-            {
-                this.dbSet.Attach(entity);
-                this.dbSet.Remove(entity);
-            }
-        }
+			if (entity == null)
+			{
+				throw new ArgumentNullException("Entity cannot be null!");
+			}
 
-        public void Delete(params object[] id)
-        {
-            var entity = this.GetById(id);
-            if (entity != null)
-            {
-                this.Delete(entity);
-            }
-        }
+			entity.IsDeleted = true;
+			entity.DeletedOn = DateTime.Now;
+
+			var entry = this.dbContext.Entry(entity);
+
+			if (entry.State != EntityState.Modified)
+			{
+				entry.State = EntityState.Modified;
+			}
+		}
 
         public T GetById(params object[] id)
         {
