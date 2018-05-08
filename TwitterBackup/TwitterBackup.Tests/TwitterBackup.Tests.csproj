@@ -21,4 +21,11 @@
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TwitterBackup.Data.Services.Tests\CascadeDeleteEntityServiceTests\" />
+    <Folder Include="TwitterBackup.Data.Services.Tests\UserTweetServiceTests\" />
+    <Folder Include="TwitterBackup.Data.Services.Tests\UserTweeterServiceTests\" />
+    <Folder Include="TwitterBackup.Data.Services.Tests\TwitterApiServiceTests\" />
+  </ItemGroup>
+
 </Project>
